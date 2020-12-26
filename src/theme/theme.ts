@@ -10,7 +10,7 @@ const theme = extendTheme({
         fontSize: 'sm',
       },
       a: {
-        color: 'black.500',
+        color: 'black.500 !important',
       },
     },
   },
