@@ -158,7 +158,8 @@
     "@typescript-eslint/return-await": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/member-delimiter-style": "off"
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "plugins": [
     "prettier",

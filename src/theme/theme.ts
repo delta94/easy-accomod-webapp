@@ -7,7 +7,7 @@ const theme = extendTheme({
       'html, body': {
         fontFamily: 'Lato',
         fontWeight: 400,
-        fontSize: 'sm',
+        fontSize: 'md',
       },
       a: {
         color: 'black.500 !important',

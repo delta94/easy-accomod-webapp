@@ -1,6 +1,5 @@
 import { Box, Link, Image } from '@chakra-ui/react'
 import { Link as ReactLink } from 'react-router-dom'
-// import NextLink from 'next/link'
 
 type Props = {
   name: string
@@ -9,13 +8,8 @@ type Props = {
 }
 
 const TopDestinationBox = ({ name, imageUrl, url }: Props) => {
-  // const {
-  //   data: { data } = {} as any,
-  // }: { data: { data: number } } = useTotalPlacesByCityData({
-  //   city: url,
-  // })
   return (
-    <ReactLink to='/cities'>
+    <ReactLink to={`/cities/${url}`}>
       <Box w='263px' h='310px'>
         <Link
           h='100%'
@@ -38,12 +32,12 @@ const TopDestinationBox = ({ name, imageUrl, url }: Props) => {
               </Box>
             </Box>
             <Box position='absolute' bottom={8} color='white' left={4}>
-              <Box as='h4' fontWeight='bold' fontSize='2xl'>
+              <Box as='h4' fontWeight='bold' fontSize='2xl' color='white'>
                 {name}
               </Box>
               <Box>
                 <Box d='inline-block' fontWeight='bold'>
-                  aaaaaa
+                  1000
                 </Box>{' '}
                 <Box d='inline-block' color='gray.100'>
                   Chỗ ở

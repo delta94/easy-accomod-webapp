@@ -1,5 +1,6 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import { auth } from 'firebase-config'
+import axios from 'utils/axios'
 import actions from '../actions'
 
 const {
@@ -25,6 +26,7 @@ function* logInByEmailAndPasswordSaga({
       })
 
     const token = yield auth?.currentUser?.getIdToken(true)
+    localStorage.setItem('token', token)
     if (token) {
       yield put(authSuccess(token))
     }
@@ -50,8 +52,14 @@ function* signUpByEmailAndPasswordSaga({
         }
       })
     const token = yield auth?.currentUser?.getIdToken(true)
+    localStorage.setItem('token', token)
     if (token) {
       yield put(authSuccess(token))
+      const result = yield axios.post('/api/renters/create', {
+        email: payload.email,
+        name: payload.name,
+      })
+      debugger
     }
   } catch (e) {
     console.log(e)

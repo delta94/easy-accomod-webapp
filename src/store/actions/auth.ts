@@ -1,25 +1,32 @@
 import { createAction } from '@reduxjs/toolkit'
 
-type AuthByEmailAndPasswordType = {
+type LoginByEmailAndPasswordType = {
   email: string
   password: string
 }
+type SignupByEmailAndPasswordType = {
+  email: string
+  password: string
+  name: string
+}
 
 const loginByEmailAndPassword = createAction<
-  AuthByEmailAndPasswordType,
+  LoginByEmailAndPasswordType,
   'LOG_IN_BY_EMAIL_PASSWORD'
 >('LOG_IN_BY_EMAIL_PASSWORD')
 
 const signupByEmailAndPassword = createAction<
-  AuthByEmailAndPasswordType,
+  SignupByEmailAndPasswordType,
   'SIGN_UP_BY_EMAIL_PASSWORD'
 >('SIGN_UP_BY_EMAIL_PASSWORD')
 const authSuccess = createAction<string, 'AUTH_SUCCESS'>('AUTH_SUCCESS')
+const signOut = createAction('SIGN_OUT')
 
 const authActions = {
   loginByEmailAndPassword,
   signupByEmailAndPassword,
   authSuccess,
+  signOut,
 }
 
 export default authActions

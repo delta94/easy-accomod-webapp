@@ -3,6 +3,7 @@
     "Chakra",
     "persistor",
     "reduxjs",
+    "signin",
     "signup"
   ]
 }
