@@ -90,40 +90,8 @@ const Login = () => {
             </Container>
           </Box>
           <Container px={10} maxW='calc(1296px + 5.6rem)' mb={14}>
-            <Grid templateColumns='repeat(3, 1fr)' gap={3}>
-              <GridItem colSpan={2}>
-                <Grid templateColumns='1fr 1fr' templateRows='1fr 1fr' gap={2}>
-                  <GridItem>
-                    <MediaBox
-                      imageUrl={Coins}
-                      title='Tích điểm nhanh chóng'
-                      description='Tích điểm đối với mỗi lượt đặt chỗ thành công. Quy đổi thành 3S Credit để du lịch nhiều hơn nữa.'
-                    />
-                  </GridItem>
-                  <GridItem>
-                    <MediaBox
-                      imageUrl={TopSales}
-                      title='Tiện ích thông minh'
-                      description='Check-in và kiểm tra hóa đơn thanh toán kể cả khi không có kết nối mạng. Hoàn tiền nhanh gọn. Đổi lịch dễ dàng.'
-                    />
-                  </GridItem>
-                  <GridItem>
-                    <MediaBox
-                      imageUrl={Wallet}
-                      title='Thanh toán đơn giản'
-                      description='Phương thức thanh toán tiện lợi, an toàn. Tích hợp chức năng lưu thẻ để đặt phòng lần sau.'
-                    />
-                  </GridItem>
-                  <GridItem>
-                    <MediaBox
-                      imageUrl={BackPack}
-                      title='Ưu đãi mỗi ngày'
-                      description='Nhận thông báo ưu đãi từ 3S khi có kế hoạch du lịch để lựa chọn và đặt ngay cho mình một chỗ ở phù hợp, tiện nghi với giá tốt nhất.'
-                    />
-                  </GridItem>
-                </Grid>
-              </GridItem>
-              <GridItem>
+            <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+              <GridItem mt={20} colSpan={[3, 3, 3, 1, 1]}>
                 <Box
                   p={8}
                   background='white'
@@ -233,6 +201,38 @@ const Login = () => {
                     </Box>
                   </Box>
                 </Box>
+              </GridItem>
+              <GridItem colSpan={[3, 3, 3, 2, 2]}>
+                <Grid templateColumns='1fr 1fr' templateRows='1fr 1fr' gap={2}>
+                  <GridItem>
+                    <MediaBox
+                      imageUrl={Coins}
+                      title='Tích điểm nhanh chóng'
+                      description='Tích điểm đối với mỗi lượt đặt chỗ thành công. Quy đổi thành 3S Credit để du lịch nhiều hơn nữa.'
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <MediaBox
+                      imageUrl={TopSales}
+                      title='Tiện ích thông minh'
+                      description='Check-in và kiểm tra hóa đơn thanh toán kể cả khi không có kết nối mạng. Hoàn tiền nhanh gọn. Đổi lịch dễ dàng.'
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <MediaBox
+                      imageUrl={Wallet}
+                      title='Thanh toán đơn giản'
+                      description='Phương thức thanh toán tiện lợi, an toàn. Tích hợp chức năng lưu thẻ để đặt phòng lần sau.'
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <MediaBox
+                      imageUrl={BackPack}
+                      title='Ưu đãi mỗi ngày'
+                      description='Nhận thông báo ưu đãi từ 3S khi có kế hoạch du lịch để lựa chọn và đặt ngay cho mình một chỗ ở phù hợp, tiện nghi với giá tốt nhất.'
+                    />
+                  </GridItem>
+                </Grid>
               </GridItem>
             </Grid>
           </Container>

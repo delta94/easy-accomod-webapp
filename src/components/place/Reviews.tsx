@@ -1,0 +1,135 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-shadow */
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import {
+  Avatar,
+  Box,
+  chakra,
+  Divider,
+  Heading,
+  Skeleton,
+  Text,
+  useToast,
+} from '@chakra-ui/react'
+import { useState } from 'react'
+import { AiFillStar } from 'react-icons/ai'
+import { Element } from 'react-scroll'
+import { useQuery } from 'react-query'
+import ReviewForm from './ReviewForm'
+
+type RatingType = {
+  score: number
+  comment: string
+  user_name: string
+  user_avatar: string
+}[]
+
+const Reviews = () => {
+  const NavLabel = chakra(Element)
+
+  // const toast = useToast()
+
+  // const {
+  //   isLoading,
+  //   isError,
+  //   refetch,
+  //   data: { data: reviews } = {} as any,
+  // }: {
+  //   isError: boolean
+  //   isLoading: boolean
+  //   data: { data: RatingType }
+  //   refetch: any
+  // } = useQuery(
+  //   ['placeReviews', id],
+  //   async () => {
+  //     const { data } = await axios({
+  //       url: `/v1/place/${id}/ratings`,
+  //       method: 'GET',
+  //     })
+
+  //     return data
+  //   },
+  //   { enabled: id, retry: false, refetchOnWindowFocus: false }
+  // )
+
+  // if (isError) {
+  //   toast({
+  //     title: 'Đã có lỗi xảy ra',
+  //     description:
+  //       'Lỗi khi tải dữ liệu, vui lòng kiểm tra lại đường truyền mạng!',
+  //     status: 'error',
+  //     duration: 3000,
+  //     isClosable: true,
+  //     position: 'top',
+  //   })
+  // }
+  const [isLoading, setLoading] = useState(false)
+  const [reviews, setReviews] = useState([]) as any
+  const addReview = ({
+    comment,
+    score,
+  }: {
+    comment: string
+    score: number
+  }) => {
+    setReviews([...reviews, { comment, score }])
+  }
+  return (
+    <NavLabel className='place-details-reviews' name='reviews' mt={20}>
+      <Box className='reviews-title'>
+        <Heading
+          as='h3'
+          fontSize='3xl'
+          fontWeight='bolder'
+          lineHeight='shorter'>
+          Đánh giá
+        </Heading>
+      </Box>
+      {reviews?.length &&
+        reviews?.map((r: any) => (
+          <Box className='single-review' my={8}>
+            <Box display='flex' flexDirection='row'>
+              <Avatar name='Dan Abrahmov' />
+              <Box ml={2} display='flex' pt={1}>
+                <Box>
+                  <Heading
+                    as='h5'
+                    fontWeight='bolder'
+                    lineHeight='shorter'
+                    fontSize='md'>
+                    {!isLoading ? (
+                      'aaa'
+                    ) : (
+                      <Skeleton mt={1} height='12px' width='120px' />
+                    )}
+                  </Heading>
+                </Box>
+                <Box display='flex' marginLeft={3} color='#FFB500' pt={0.25}>
+                  {[...Array(r.score)].map((_, idx) => (
+                    <AiFillStar fontSize={24} key={idx} />
+                  ))}
+                </Box>
+              </Box>
+            </Box>
+            <Box className='reviews-content' mt={5}>
+              <Text color='#555'>
+                {!isLoading ? (
+                  r.comment
+                ) : (
+                  <Skeleton mt={1} height='12px' width='240px' />
+                )}
+              </Text>
+            </Box>
+          </Box>
+        ))}
+      <Divider />
+      <ReviewForm addReview={addReview} />
+    </NavLabel>
+  )
+}
+
+export default Reviews

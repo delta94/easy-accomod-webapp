@@ -4,9 +4,10 @@
   "printWidth": 80,
   "tabWidth": 2,
   "jsxSingleQuote": true,
-  "semi": true,
+  "semi": false,
   "jsxBracketSpacing": true,
   "bracketSpacing": true,
   "proseWrap": "always",
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "endOfLine": "auto"
 }

@@ -17,6 +17,7 @@
     "jest": true
   },
   "rules": {
+    "linebreak-style": 0,
     "jsx-quotes": 0,
     "max-classes-per-file": 0,
     "object-curly-newline": 0,
@@ -89,7 +90,7 @@
         "jsxBracketSameLine": true,
         "bracketSpacing": true,
         "proseWrap": "always",
-        "arrowParens": "always"
+        "endOfLine": "auto"
       }
     ],
     "react-hooks/rules-of-hooks": "error",
@@ -157,8 +158,7 @@
     "@typescript-eslint/return-await": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/member-delimiter-style": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/member-delimiter-style": "off"
   },
   "plugins": [
     "prettier",

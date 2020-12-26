@@ -14,6 +14,7 @@ import {
   Image,
 } from '@chakra-ui/react'
 import Banner from 'assets/banner.jpg'
+import Banner1 from 'assets/banner1.jpg'
 import Homestay from 'assets/services/homestay.jpg'
 import Oto from 'assets/services/oto.jpg'
 import Ticket from 'assets/services/ticket.jpg'
@@ -50,6 +51,12 @@ type PlacesByCity = {
 
 const Home = () => {
   const toast = useToast()
+  const a = {
+    sm: 2,
+    md: 2,
+    lg: 2,
+    xl: 2,
+  }
 
   // const {
   //   isLoading,
@@ -80,49 +87,71 @@ const Home = () => {
     <Container maxW='calc(1296px + 5.6rem)' px={10}>
       <Box mt={12}>
         <Box>
-          <Box sx={{ img: { borderRadius: 'xl' } }}>
-            <Image src={Banner} width={1921} height={431} />
+          <Box
+            display={{
+              md: 'block',
+              lg: 'none',
+              xl: 'none',
+            }}>
+            <Image src={Banner1} />
           </Box>
-          <Box mt={8}>
-            <Text fontSize='3xl' fontWeight='bold'>
-              Chào mừng đến với 3S!
-            </Text>
-            <Text>
-              Đặt chỗ ở, homestay, cho thuê xe, trải nghiệm và nhiều hơn nữa
-              trên 3S
-            </Text>
-            <Text>
-              {' '}
-              <Link href='/login'>Đăng nhập</Link> hoặc{' '}
-              <Link href='/signup'>Đăng ký</Link> để trải nghiệm !
-            </Text>
+          <Box
+            display={{
+              sm: 'none',
+              md: 'none',
+              lg: 'block',
+              // xl: 'none',
+            }}>
+            <Image src={Banner} />
           </Box>
-          <Box css={{}}>
-            <Grid templateColumns='repeat(4, 250px)' mt={12}>
-              <ServiceBox
-                title='Homestay'
-                description='Căn hộ dịch vụ & Biệt thự'
-                imageUrl={Homestay}
-              />
-              <ServiceBox
-                title='Vé tham quan'
-                description='Mua vé thật dễ dàng'
-                imageUrl={Ticket}
-                comingSoon
-              />
-              <ServiceBox
-                title='Thuê xe ô tô'
-                description='Giá chỉ từ 1,299,000đ'
-                imageUrl={Oto}
-                comingSoon
-              />
-              <ServiceBox
-                title='Đưa đón sân bay'
-                description='Xe sang chỉ từ 199.000đ'
-                imageUrl={Plane}
-                comingSoon
-              />
-            </Grid>
+          <Box>
+            <Box mt={8} marginBottom='8px'>
+              <Text fontSize='3xl' fontWeight='bold'>
+                Chào mừng đến với 3S!
+              </Text>
+              <Text>
+                Đặt chỗ ở, homestay, cho thuê xe, trải nghiệm và nhiều hơn nữa
+                trên 3S
+              </Text>
+              <Text>
+                {' '}
+                <Link href='/login'>Đăng nhập</Link> hoặc{' '}
+                <Link href='/signup'>Đăng ký</Link> để trải nghiệm !
+              </Text>
+            </Box>
+            <Box
+              width={[
+                '100%', // 0-30em
+                '100%', // 30em-48em
+                '100%', // 48em-62em
+                '80%', // 62em+
+              ]}>
+              <Slider speed={500} slidesToShow={4} slidesToScroll={1}>
+                <ServiceBox
+                  title='Homestay'
+                  description='Căn hộ dịch vụ & Biệt thự'
+                  imageUrl={Homestay}
+                />
+                <ServiceBox
+                  title='Vé tham quan'
+                  description='Mua vé thật dễ dàng'
+                  imageUrl={Ticket}
+                  comingSoon
+                />
+                <ServiceBox
+                  title='Thuê xe ô tô'
+                  description='Giá chỉ từ 1,299,000đ'
+                  imageUrl={Oto}
+                  comingSoon
+                />
+                <ServiceBox
+                  title='Đưa đón sân bay'
+                  description='Xe sang chỉ từ 199.000đ'
+                  imageUrl={Plane}
+                  comingSoon
+                />
+              </Slider>
+            </Box>
           </Box>
           <Box
             mt={12}
@@ -171,36 +200,155 @@ const Home = () => {
               name='Địa điểm nổi bật'
               description='Cùng 3S bắt đầu chuyến hành trình chinh phục thế giới của bạn'
             />
-            <Slider infinite speed={500} slidesToShow={5} slidesToScroll={5}>
-              <TopDestinationBox name='Hà Nội' url='hanoi' imageUrl={Hanoi} />
-              <TopDestinationBox
-                name='TP.Hồ Chí Minh'
-                url='hcm'
-                imageUrl={HCM}
-              />
-              <TopDestinationBox
-                name='Vũng Tàu'
-                url='vungtau'
-                imageUrl={Vungtau}
-              />
-              <TopDestinationBox name='Đà Lạt' url='dalat' imageUrl={Dalat} />
-              <TopDestinationBox
-                name='Đà Nẵng'
-                url='danang'
-                imageUrl={Danang}
-              />
-              <TopDestinationBox
-                name='Nha Trang'
-                url='nhatrang'
-                imageUrl={Nhatrang}
-              />
-              <TopDestinationBox
-                name='Quảng Ninh'
-                url='quangninh'
-                imageUrl={QuangNinh}
-              />
-              <TopDestinationBox name='Hội An' url='hoian' imageUrl={Hoian} />
-            </Slider>
+            <Box
+              display={{
+                base: 'block',
+                sm: 'block',
+                md: 'none',
+                lg: 'none',
+              }}>
+              <Slider infinite speed={500} slidesToShow={2} slidesToScroll={5}>
+                <TopDestinationBox name='Hà Nội' url='hanoi' imageUrl={Hanoi} />
+                <TopDestinationBox
+                  name='TP.Hồ Chí Minh'
+                  url='hcm'
+                  imageUrl={HCM}
+                />
+                <TopDestinationBox
+                  name='Vũng Tàu'
+                  url='vungtau'
+                  imageUrl={Vungtau}
+                />
+                <TopDestinationBox name='Đà Lạt' url='dalat' imageUrl={Dalat} />
+                <TopDestinationBox
+                  name='Đà Nẵng'
+                  url='danang'
+                  imageUrl={Danang}
+                />
+                <TopDestinationBox
+                  name='Nha Trang'
+                  url='nhatrang'
+                  imageUrl={Nhatrang}
+                />
+                <TopDestinationBox
+                  name='Quảng Ninh'
+                  url='quangninh'
+                  imageUrl={QuangNinh}
+                />
+                <TopDestinationBox name='Hội An' url='hoian' imageUrl={Hoian} />
+              </Slider>
+            </Box>
+            <Box
+              display={{ base: 'none', sm: 'none', md: 'block', lg: 'none' }}>
+              <Slider infinite speed={500} slidesToShow={3} slidesToScroll={5}>
+                <TopDestinationBox name='Hà Nội' url='hanoi' imageUrl={Hanoi} />
+                <TopDestinationBox
+                  name='TP.Hồ Chí Minh'
+                  url='hcm'
+                  imageUrl={HCM}
+                />
+                <TopDestinationBox
+                  name='Vũng Tàu'
+                  url='vungtau'
+                  imageUrl={Vungtau}
+                />
+                <TopDestinationBox name='Đà Lạt' url='dalat' imageUrl={Dalat} />
+                <TopDestinationBox
+                  name='Đà Nẵng'
+                  url='danang'
+                  imageUrl={Danang}
+                />
+                <TopDestinationBox
+                  name='Nha Trang'
+                  url='nhatrang'
+                  imageUrl={Nhatrang}
+                />
+                <TopDestinationBox
+                  name='Quảng Ninh'
+                  url='quangninh'
+                  imageUrl={QuangNinh}
+                />
+                <TopDestinationBox name='Hội An' url='hoian' imageUrl={Hoian} />
+              </Slider>
+            </Box>
+            <Box
+              display={{
+                base: 'none',
+                sm: 'none',
+                md: 'none',
+                lg: 'block',
+                xl: 'none',
+              }}>
+              <Slider infinite speed={500} slidesToShow={4} slidesToScroll={5}>
+                <TopDestinationBox name='Hà Nội' url='hanoi' imageUrl={Hanoi} />
+                <TopDestinationBox
+                  name='TP.Hồ Chí Minh'
+                  url='hcm'
+                  imageUrl={HCM}
+                />
+                <TopDestinationBox
+                  name='Vũng Tàu'
+                  url='vungtau'
+                  imageUrl={Vungtau}
+                />
+                <TopDestinationBox name='Đà Lạt' url='dalat' imageUrl={Dalat} />
+                <TopDestinationBox
+                  name='Đà Nẵng'
+                  url='danang'
+                  imageUrl={Danang}
+                />
+                <TopDestinationBox
+                  name='Nha Trang'
+                  url='nhatrang'
+                  imageUrl={Nhatrang}
+                />
+                <TopDestinationBox
+                  name='Quảng Ninh'
+                  url='quangninh'
+                  imageUrl={QuangNinh}
+                />
+                <TopDestinationBox name='Hội An' url='hoian' imageUrl={Hoian} />
+              </Slider>
+            </Box>
+            <Box
+              display={{
+                base: 'none',
+                sm: 'none',
+                md: 'none',
+                lg: 'none',
+                xl: 'block',
+              }}>
+              <Slider infinite speed={500} slidesToShow={5} slidesToScroll={5}>
+                <TopDestinationBox name='Hà Nội' url='hanoi' imageUrl={Hanoi} />
+                <TopDestinationBox
+                  name='TP.Hồ Chí Minh'
+                  url='hcm'
+                  imageUrl={HCM}
+                />
+                <TopDestinationBox
+                  name='Vũng Tàu'
+                  url='vungtau'
+                  imageUrl={Vungtau}
+                />
+                <TopDestinationBox name='Đà Lạt' url='dalat' imageUrl={Dalat} />
+                <TopDestinationBox
+                  name='Đà Nẵng'
+                  url='danang'
+                  imageUrl={Danang}
+                />
+                <TopDestinationBox
+                  name='Nha Trang'
+                  url='nhatrang'
+                  imageUrl={Nhatrang}
+                />
+                <TopDestinationBox
+                  name='Quảng Ninh'
+                  url='quangninh'
+                  imageUrl={QuangNinh}
+                />
+                <TopDestinationBox name='Hội An' url='hoian' imageUrl={Hoian} />
+              </Slider>
+            </Box>
           </Box>
           <Box mt={12}>
             <HomeSectionHeader
@@ -286,8 +434,8 @@ const Home = () => {
             />
 
             {/* <Slider infinite speed={500} slidesToShow={4} slidesToScroll={4}>
-              {data?.length
-                && data.map((place) => (
+              {data?.length &&
+                data.map((place) => (
                   <PlaceBox
                     key={place.id}
                     placeId={place.id}
@@ -296,8 +444,8 @@ const Home = () => {
                     address={place.address}
                   />
                 ))}
-              {isLoading
-                && Array.from({ length: 4 }).map((_: any, index: number) => (
+              {isLoading &&
+                Array.from({ length: 4 }).map((_: any, index: number) => (
                   <PlaceBox key={index} isLoading />
                 ))}
             </Slider> */}

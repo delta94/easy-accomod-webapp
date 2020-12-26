@@ -14,7 +14,8 @@ export default function Footer() {
     <Box alignSelf='end' py={12}>
       <Box py={12}>
         <Container maxW='calc(1296px + 5.6rem)' px={10}>
-          <Grid templateColumns='repeat(4, 1fr)'>
+          <Grid
+            templateColumns={{ sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }}>
             <Box mt={4}>
               <Box d='flex' alignItems='center' mb={5}>
                 <Image src={Logo} height={14} width={14} />
@@ -75,7 +76,7 @@ export default function Footer() {
                   +84 962605699
                 </Text>
                 <Text fontSize='md' mt={2}>
-                  info@hughdo.dev
+                  toandeptrai
                 </Text>
                 <Text fontSize='md' mt={2}>
                   Thông tin dành cho chủ nhà
