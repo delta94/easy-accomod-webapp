@@ -1,5 +1,7 @@
-import React from 'react'
-import Search from 'components/filter/Search'
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable prettier/prettier */
+import React, { useEffect, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import {
   Box,
   Flex,
@@ -13,14 +15,45 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Image,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react'
-import Logo from 'assets/logo2.png'
+import axios from 'utils/axios'
+import { auth } from 'firebase-config'
+import useRedux from 'hooks/useRedux'
+import actions from 'store/actions'
 
-import { HamburgerIcon } from '@chakra-ui/icons'
-import { Link } from 'react-router-dom'
+import { HamburgerIcon, ChevronDownIcon } from '@chakra-ui/icons'
+import Logo from 'assets/logo2.png'
+import Search from 'components/filter/Search'
 
 export default function Header() {
+  const history = useHistory()
+  const { dispatch, selector } = useRedux()
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const [name, setName] = useState('')
+  const authState = selector((state: any) => state?.auth)
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async () => {
+      const result = await axios.get('/api/profile')
+      const { data } = result.data
+      setName(data.name)
+    })
+  }, [])
+
+  const signOut = async () => {
+    await auth.signOut()
+    setName('')
+    dispatch(
+      actions.signOut()
+    )
+    localStorage.clear()
+    history.push('/')
+  }
+
   return (
     <div>
       <Box
@@ -57,6 +90,7 @@ export default function Header() {
               <Button variant='ghost'>
                 <Link to='/signup'>Đăng ký</Link>
               </Button>
+
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
@@ -73,17 +107,40 @@ export default function Header() {
           m='0 auto'
           backgroundColor='blue'
           alignItems='center'>
-          <Image src={Logo} width='60px' height='60px' />
+          <Link to='/'>
+            <Image src={Logo} width='60px' height='60px' />
+          </Link>
           <Search />
           <Spacer />
-          <Flex d='flex' alignItems='center'>
-            <Button variant='ghost'>
-              <Link to='/login'>Đăng nhập</Link>
-            </Button>
-            <Button variant='ghost'>
-              <Link to='/signup'>Đăng ký</Link>
-            </Button>
-          </Flex>
+          {name !== '' ? (
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                {name}
+              </MenuButton>
+              <MenuList>
+                <MenuItem>
+                  <Link to='/account'>Cài đặt tài khoản</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link to='/bookmarks'>Yêu thích</Link>
+                </MenuItem>
+                <MenuItem>
+                  <Button onClick={signOut} variant='link'>
+                    Đăng xuất
+                  </Button>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+              <Flex d='flex' alignItems='center'>
+                <Button variant='ghost'>
+                  <Link to='/login'>Đăng nhập</Link>
+                </Button>
+                <Button variant='ghost'>
+                  <Link to='/signup'>Đăng ký</Link>
+                </Button>
+              </Flex>
+            )}
         </Flex>
       </Box>
     </div>

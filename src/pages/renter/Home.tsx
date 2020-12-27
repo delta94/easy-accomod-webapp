@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import HomeComponent from 'components/home/Home'

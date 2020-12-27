@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react/no-children-prop */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { EmailIcon } from '@chakra-ui/icons'
 import Copyright from 'components/layout/Copyright'
 import { Helmet } from 'react-helmet'
@@ -17,7 +18,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import Header from 'components/layout/Header'
-import { Link as ReactLink } from 'react-router-dom'
+import { Link as ReactLink, useHistory } from 'react-router-dom'
 import useRedux from 'hooks/useRedux'
 import actions from 'store/actions'
 import MediaBox from 'components/login/MediaBox'
@@ -25,16 +26,21 @@ import Coins from 'assets/signin/coins.png'
 import TopSales from 'assets/signin/top-sales.png'
 import Wallet from 'assets/signin/wallet.png'
 import BackPack from 'assets/signin/backpack.png'
+import { isValidEmail } from 'utils/validation'
 
 const Login = () => {
   const toast = useToast()
-  const { dispatch } = useRedux()
+  const history = useHistory()
+  const { dispatch, selector } = useRedux()
+  const auth = selector((state: any) => state?.auth)
+
   const [showPassword, setShowPassword] = useState(false)
-  const handleShowPassword = () => setShowPassword(!showPassword)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
-  const handleLogin = () => {
+
+  const handleShowPassword = () => setShowPassword(!showPassword)
+  const handleLogin = async () => {
     if (!email || !password) {
       return toast({
         title: 'Lỗi',
@@ -45,25 +51,31 @@ const Login = () => {
         isClosable: true,
       })
     }
-    // if (!isValidEmail(email)) {
-    //   return toast({
-    //     title: 'Lỗi',
-    //     description: 'Email không hợp lệ',
-    //     status: 'error',
-    //     position: 'top',
-    //     duration: 5000,
-    //     isClosable: true,
-    //   })
-    // }
+    if (!isValidEmail(email)) {
+      return toast({
+        title: 'Lỗi',
+        description: 'Email không hợp lệ',
+        status: 'error',
+        position: 'top',
+        duration: 5000,
+        isClosable: true,
+      })
+    }
     setLoading(true)
-    // signIn('credentials', { email, password, callbackUrl: '/' })
-    dispatch(
+    await dispatch(
       actions.loginByEmailAndPassword({
-        email: 'user1@example.com',
-        password: 'secretPassword',
+        email,
+        password,
       })
     )
+    setLoading(false)
   }
+
+  useEffect(() => {
+    if (auth.isAuth) {
+      history.push('/')
+    }
+  }, [auth.isAuth, history])
 
   return (
     <>
@@ -104,14 +116,6 @@ const Login = () => {
                   <Text fontWeight='bold' mb={4}>
                     Đăng nhập 3S để trải nghiệm
                   </Text>
-                  {/* {query?.error === 'CredentialsSignin' && (
-                  <Alert status='error'>
-                    <WarningIcon sx={{ color: 'red !important', mr: 2 }} />
-                    <AlertTitle mr={2}>
-                      Sai tên đăng nhập hoặc mật khẩu!
-                    </AlertTitle>
-                  </Alert>
-                )} */}
                   <InputGroup mt={8} size='lg'>
                     <Input
                       type='email'

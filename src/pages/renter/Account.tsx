@@ -3,7 +3,7 @@ import Layout from 'layouts/Layout'
 import Header from 'components/account/Header'
 import SideBar from 'components/account/edit_account/SideBar'
 
-function Acount() {
+function Account() {
   return (
     <Layout>
       <Header />
@@ -12,4 +12,4 @@ function Acount() {
   )
 }
 
-export default Acount
+export default Account

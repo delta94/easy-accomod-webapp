@@ -2,7 +2,7 @@
 import { Table, Tag, Space } from 'antd'
 import { Button, ButtonGroup, Box } from '@chakra-ui/react'
 import React from 'react'
-import 'antd/dist/antd.css'
+// import 'antd/dist/antd.css'
 
 const columns = [
   {
