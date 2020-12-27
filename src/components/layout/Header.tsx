@@ -19,6 +19,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useToast
 } from '@chakra-ui/react'
 import axios from 'utils/axios'
 import { auth } from 'firebase-config'
@@ -30,6 +31,7 @@ import Logo from 'assets/logo2.png'
 import Search from 'components/filter/Search'
 
 export default function Header() {
+  const toast = useToast()
   const history = useHistory()
   const { dispatch, selector } = useRedux()
   const { isOpen, onClose, onOpen } = useDisclosure()
@@ -38,9 +40,25 @@ export default function Header() {
 
   useEffect(() => {
     auth.onAuthStateChanged(async () => {
-      const result = await axios.get('/profile')
-      const { data } = result.data
-      setName(data.name)
+      try {
+        const result = await axios.get('/profile')
+        const { data } = result.data
+        setName(data.name)
+        debugger
+      } catch (error) {
+        if (error.response.status === 403) {
+          signOut()
+          toast({
+            title: 'Có sự cố xảy ra',
+            description: 'Bạn không đủ quyền để truy cập trang này',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top',
+          })
+          debugger
+        }
+      }
     })
   }, [])
 

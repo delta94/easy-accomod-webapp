@@ -7,9 +7,16 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
-    debugger
+    let role = 'renter'
+    const domain = window.location.hostname.split('.')
+    if (domain.length === 1) role = 'renter'
+    if (domain.length === 2) {
+      if (domain[0] === 'admin') role = 'admin'
+      if (domain[0] === 'owner') role = 'owner'
+    }
     if (token) {
       config.headers.Authorization = token
+      config.headers.role = role
     }
 
     return config

@@ -7,6 +7,7 @@ const {
   loginByEmailAndPassword,
   authSuccess,
   signupByEmailAndPassword,
+  pushError,
 } = actions
 
 function* logInByEmailAndPasswordSaga({
@@ -15,16 +16,16 @@ function* logInByEmailAndPasswordSaga({
   try {
     yield auth
       .signInWithEmailAndPassword(payload.email, payload.password)
-      .catch((error) => {
+      .catch(async (error) => {
         let errorCode = error.code
         let errorMessage = error.message
         if (errorCode === 'auth/wrong-password') {
           alert('Wrong password.')
+          debugger
         } else {
           alert(errorMessage)
         }
       })
-
     const token = yield auth?.currentUser?.getIdToken(true)
     localStorage.setItem('token', token)
     if (token) {
@@ -53,6 +54,7 @@ function* signUpByEmailAndPasswordSaga({
       })
     const token = yield auth?.currentUser?.getIdToken(true)
     localStorage.setItem('token', token)
+    debugger
     if (token) {
       yield put(authSuccess(token))
       const result = yield axios.post('/renters/create', {
