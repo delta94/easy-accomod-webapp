@@ -38,7 +38,7 @@ export default function Header() {
 
   useEffect(() => {
     auth.onAuthStateChanged(async () => {
-      const result = await axios.get('/api/profile')
+      const result = await axios.get('/profile')
       const { data } = result.data
       setName(data.name)
     })

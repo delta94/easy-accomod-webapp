@@ -1,90 +1,132 @@
-import {
-  Box,
-  Badge,
-  Image,
-  AspectRatio,
-  Link,
-  Center,
-  Text,
-} from '@chakra-ui/react'
-import { StarIcon } from '@chakra-ui/icons'
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable no-redeclare */
 
-type Props = {
-  title: string
-  description: string
-  imageUrl: string
-  comingSoon?: boolean
-  reviewCount: string
-  rating: string
-  price: string
-}
+import { Box, Image, Text, Stack, Skeleton } from '@chakra-ui/react'
+import { AiFillStar } from 'react-icons/ai'
+import { FaRegHeart } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { AmountFormat } from 'utils/amountFormat'
 
-const RoomItem = ({
-  title,
-  description,
-  imageUrl,
-  comingSoon,
-  reviewCount,
-  rating,
+function RoomItem({
+  placeId,
+  name,
+  placeType,
   price,
-}: Props) => (
-  <Box
-    borderWidth='1px'
-    borderRadius='lg'
-    mt={3}
-    w='100%'
-    mx='0.3rem'
-    my='0.4rem'>
-    <Image
-      src={imageUrl}
-      cursor='pointer'
-      fallbackSrc='https://www.luxstay.com/loading-img.svg'
-      width='100%'
-      height={230}
-      top={0}
-      left={0}
-      objectFit='cover'
-      borderRadius='3px'
-    />
-    <Box p='6'>
-      <Box alignItems='baseline'>
-        <Badge borderRadius='full' px='2' colorScheme='teal'>
-          New
-        </Badge>
-        <Box
-          color='gray.500'
-          fontWeight='semibold'
-          letterSpacing='wide'
-          fontSize='xs'
-          textTransform='uppercase'
-          ml='2'>
-          1 beds &bull; 2 baths
-        </Box>
-      </Box>
+  ratings,
+  isLoading,
+  image,
+}: Partial<{
+  placeId: string
+  name: string
+  placeType: string
+  price: number
+  ratings?: []
+  isLoading: boolean
+  image: string
+}>) {
+  let avg = 0
+  let sum = 0
+  ratings?.forEach((r: any) => {
+    sum += r.score
+  })
 
-      <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight' isTruncated>
-        {title}
-      </Box>
+  avg = ratings?.length === 0 ? sum / ratings?.length : 0
 
+  return (
+    <Box mt={3} w='100%' mx='0.3rem' my='0.4rem'>
       <Box>
-        {price}
-        <Box as='span' color='gray.600' fontSize='sm'>
-          / wk
+        <Box
+          sx={{
+            ':before': {
+              content: '""',
+              display: 'block',
+              width: '100%',
+            },
+          }}
+          position='relative'
+          zIndex='0'>
+          {isLoading ? (
+            <Skeleton
+              width='100%'
+              height={230}
+              top={0}
+              left={0}
+              objectFit='cover'
+              borderRadius='3px'
+            />
+          ) : (
+              <Link to={`/place/${placeId}`}>
+                <Image
+                  cursor='pointer'
+                  fallbackSrc='https://www.luxstay.com/loading-img.svg'
+                  width='100%'
+                  height={230}
+                  top={0}
+                  left={0}
+                  objectFit='cover'
+                  borderRadius='3px'
+                  src={image}
+                />
+              </Link>
+            )}
         </Box>
-      </Box>
+        <Box mt={3} fontSize={18} color='#222'>
+          {isLoading ? (
+            <Skeleton my={0.5} width='100%' height={3} />
+          ) : (
+              <Box my={0.5}>
+                <Box
+                  display='flex'
+                  justifyContent='space-between'
+                  alignItems='center'>
+                  <Text fontSize='sm' color='#718096'>
+                    {placeType}
+                  </Text>
+                  <Stack fontSize='sm' direction='row'>
+                    <AiFillStar color='#FFB025' size='18' />
+                    <span>
+                      {avg} ({ratings?.length})
+                  </span>
+                  </Stack>
+                </Box>
+              </Box>
+            )}
 
-      <Box d='flex' mt='2' alignItems='center'>
-        {Array(5)
-          .fill('')
-          .map((_, i) => (
-            <StarIcon key={i} color='teal.500' />
-          ))}
-        <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-          {reviewCount} reviews
+          <Box
+            sx={{
+              ':hover': {
+                color: '#f65e39',
+              },
+            }}
+            cursor='pointer'
+            transition='all .3s'
+            fontWeight='bold'>
+            {isLoading ? (
+              <Skeleton height={5} width='50%' />
+            ) : (
+                <Link to={`/place/${placeId}`}>
+                  <Box
+                    wordBreak='break-all'
+                    overflow='hidden'
+                    maxH='52px'
+                    textOverflow='ellipsis'>
+                    {name}
+                  </Box>
+                </Link>
+              )}
+          </Box>
+          {isLoading ? (
+            <Skeleton mt={2} width='30%' height={3} />
+          ) : (
+              <Stack mt={2} direction='row' spacing={3} fontSize={14}>
+                <Text fontWeight='bolder'>{AmountFormat(price)}₫/đêm</Text>
+              </Stack>
+            )}
         </Box>
       </Box>
     </Box>
-  </Box>
-)
+  )
+}
 
 export default RoomItem
