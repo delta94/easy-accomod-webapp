@@ -1,8 +1,9 @@
 /* eslint-disable react/display-name */
 import { Table, Tag, Space } from 'antd'
 import { Button, ButtonGroup, Box } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 import React from 'react'
-// import 'antd/dist/antd.css'
+import 'antd/dist/antd.css'
 
 const columns = [
   {
@@ -12,38 +13,41 @@ const columns = [
     render: (text: string) => <a>{text}</a>,
   },
   {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: 'CMND',
-    dataIndex: 'cmnd',
-    key: 'cmnd',
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
+    render: (text: string) => <a>{text}</a>,
   },
   {
-    title: 'Phone',
-    dataIndex: 'phone',
-    key: 'phone',
+    title: 'Room Type',
+    dataIndex: 'roomType',
+    key: 'roomType',
+    render: (text: string) => <a>{text}</a>,
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+    key: 'pricec',
+  },
+  {
+    title: 'Area',
+    dataIndex: 'area',
+    key: 'area',
+  },
+  {
+    title: 'Reason',
+    dataIndex: 'reason',
+    key: 'reason',
+    width: '20%',
   },
   {
     title: 'Action',
     dataIndex: 'name',
     key: 'name',
     render: (text: string) => (
-      <Box>
-        <Button colorScheme='green' mr='10px'>
-          Chấp nhận
-        </Button>
-        <Button colorScheme='red'>Từ Chối</Button>
-      </Box>
+      <Button colorScheme='orange' mr='10px'>
+        <Link to='/rooms/:room_id/preview'>Xem</Link>
+      </Button>
     ),
   },
 ]
@@ -52,31 +56,31 @@ const data = [
   {
     key: '1',
     name: 'Joe Black',
-    email: 32,
+    roomType: 32,
     address: 'Sidney No. 1 Lake Park',
-    cmnd: '123458',
-    phone: '12345678',
+    price: '123458',
+    area: '12345678',
   },
   {
-    key: '2',
+    key: '1',
     name: 'Joe Black',
-    email: 32,
+    roomType: 32,
     address: 'Sidney No. 1 Lake Park',
-    cmnd: '123458',
-    phone: '12345678',
+    price: '123458',
+    area: '12345678',
   },
   {
-    key: '3',
+    key: '1',
     name: 'Joe Black',
-    email: 32,
+    roomType: 32,
     address: 'Sidney No. 1 Lake Park',
-    cmnd: '123458',
-    phone: '12345678',
+    price: '123458',
+    area: '12345678',
   },
 ]
 
-function PendingOwner() {
+function RejectRooms() {
   return <Table columns={columns} dataSource={data} />
 }
 
-export default PendingOwner
+export default RejectRooms
