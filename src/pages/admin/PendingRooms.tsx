@@ -27,7 +27,7 @@ const columns = [
   {
     title: 'Price',
     dataIndex: 'price',
-    key: 'pricec',
+    key: 'price',
   },
   {
     title: 'Area',

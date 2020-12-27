@@ -12,12 +12,6 @@ import MicrowaveIcon from 'assets/svg/microwave.svg'
 const Amenities = ({ listAmenties}: any) => {
   const NavLabel = chakra(Element)
 
-  const MicroIcon = chakra(MicrowaveIcon as ElementType<any>)
-  const WashingIconCustom = chakra(WashingIcon as ElementType<any>)
-  const SofaIconCustom = chakra(Sofa as ElementType<any>)
-  const FridgeIconCustom = chakra(Fridge as ElementType<any>)
-  const BalconyIconCustom = chakra(Balcony as ElementType<any>)
-
   const amenties: any = {
     'Fridge/ Freezer': 'Tủ lạnh',
     Sofa: 'Sofa',
@@ -25,15 +19,36 @@ const Amenities = ({ listAmenties}: any) => {
     Balcony: 'Ban công',
     Microwave: 'Lò vi sóng',
   }
+  const icon = (title: string, exist:boolean) => {
+    if (exist) return amentyIcons[title]
+  }
 
   const amentyIcons: any = {
     'Fridge/ Freezer':
-    // <FridgeIconCustom width='24px' height='24px'/>
-    <Image src={Balcony} width='24px' height='24px'/>,
-    Sofa: <Image src={WashingIcon} width='24px' height='24px'/>,
-    'Washing machine': <Image src={Fridge} width='24px' height='24px'/>,
-    Balcony: <Image src={Sofa} width='24px' height='24px'/>,
-    Microwave: <Image src={MicrowaveIcon} width='24px' height='24px'/>,
+    <WrapItem alignItems='center' lineHeight='taller' mt={3} width='31.333%' >
+        <Image src={Balcony} width='24px' height='24px'/>
+        <span style={{ marginLeft: '.875rem' }}>{amenties['Fridge/ Freezer']}</span>
+      </WrapItem>,
+    Sofa:
+    <WrapItem alignItems='center' lineHeight='taller' mt={3} width='31.333%' >
+    <Image src={WashingIcon} width='24px' height='24px'/>
+    <span style={{ marginLeft: '.875rem' }}>{amenties['Fridge/ Freezer']}</span>
+  </WrapItem>,
+    'Washing machine':
+    <WrapItem alignItems='center' lineHeight='taller' mt={3} width='31.333%' >
+    <Image src={MicrowaveIcon} width='24px' height='24px'/>
+    <span style={{ marginLeft: '.875rem' }}>{amenties['Fridge/ Freezer']}</span>
+  </WrapItem>,
+    Balcony:
+    <WrapItem alignItems='center' lineHeight='taller' mt={3} width='31.333%' >
+    <Image src={Fridge} width='24px' height='24px'/>
+    <span style={{ marginLeft: '.875rem' }}>{amenties['Fridge/ Freezer']}</span>
+  </WrapItem>,
+    Microwave:
+    <WrapItem alignItems='center' lineHeight='taller' mt={3} width='31.333%' >
+    <Image src={Sofa} width='24px' height='24px'/>
+    <span style={{ marginLeft: '.875rem' }}>{amenties['Fridge/ Freezer']}</span>
+  </WrapItem>,
 
   }
 
@@ -50,13 +65,12 @@ const Amenities = ({ listAmenties}: any) => {
           Tiện ích
         </Heading>
         <Wrap align='center' color='#555' width='100%'>
-          {listAmenties?.length
-            && listAmenties?.map((a: string) => (
-              <WrapItem alignItems='center' lineHeight='taller' mt={3} width='31.333%' key={a}>
-                {amentyIcons[a]}
-                <span style={{ marginLeft: '.875rem' }}>{amenties[`${a}`]}</span>
-              </WrapItem>
-            ))}
+            {icon('Fridge/ Freezer', listAmenties?.hasFridge)}
+            {icon('Sofa', listAmenties?.hasWaterHeater)}
+            {icon('Washing machine', listAmenties?.hasConditioner)}
+            {icon('Balcony', listAmenties?.hasBalcony)}
+            {icon('Microwave', listAmenties?.hasBed)}
+            {icon('Fridge/ Freezer', listAmenties?.hasWardrobe)}
         </Wrap>
       </Box>
     </NavLabel>

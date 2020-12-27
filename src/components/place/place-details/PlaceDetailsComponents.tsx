@@ -1,6 +1,8 @@
 import { Container, Box, Flex, chakra, useToast } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-scroll'
+import axios from 'utils/axios'
+import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import img1 from 'assets/places/1.jpg'
 import img2 from 'assets/places/2.jpg'
@@ -14,63 +16,41 @@ import Location from './Location'
 import PlaceIntro from './PlaceIntro'
 import PlaceRoute from './PlaceRoute'
 import PolicyAndRule from './PolicyAndRule'
+import BookingForm from './BookingForm'
 import Price from './Price'
 import Reviews from './Reviews'
 import ShareAndLikeBtn from './ShareAndLikeBtn'
 
-type PriceType = {
-  normal_day_price: number
-  weekend_price: number
-}
-
-type RuleType = {
-  special_rules: string
-  smoking: string
-  pet: string
-  cooking: string
-  party: string
-}
-
-type OverviewType = {
-  image: string
-}
-
-type PolicyType = {
-  max_num_of_people: number
-  cancel_policy: string
-}
-
-type RoomType = {
-  square: number
-  num_of_bedroom: number
-  num_of_bed: number
-  num_of_bathroom: number
-  num_of_kitchen: number
-}
-
-type PlaceType = {
-  overviews_attributes: OverviewType[]
+type Intro = {
   name: string
-  id: number
-  address: string
-  place_type: string
-  schedule_price_attributes: PriceType
-  details: string
-  rule_attributes: RuleType
-  place_facilities_attributes: string[]
-  policy_attributes: PolicyType
-  room_attributes: RoomType
+  detailAddress: string
+  area: number
+  roomType: string
+  bathroomType: string
+  kitchenType: string
+  hasWaterHeater: boolean
+  hasConditioner: boolean
+  hasBalcony: boolean
+  hasFridge: boolean
+  hasBed: boolean
+  hasWardrobe: boolean
+  roomPrice: number
+  waterPrice: number
+  electricityPrice: number
+}
+type Params = {
+  room_id: string
 }
 
 const PlaceDetailsComponent = () => {
   const toast = useToast()
-
+  const params: Params = useParams()
   const Nav = chakra('nav')
   // const NavItem = chakra(Link)
   const NavItem = chakra(Link)
 
   const [showStickyNavBar, setShowStickyNavBar] = useState(false)
-
+  const [details, setDetails] = useState<Intro>()
   const handleScroll = () => {
     const position = window.pageYOffset
     if (position >= 650) {
@@ -79,39 +59,18 @@ const PlaceDetailsComponent = () => {
       setShowStickyNavBar(false)
     }
   }
-
-  // const {
-  //   isLoading,
-  //   isError,
-  //   data: { data: placeData } = {} as any,
-  // }: {
-  //   isError: boolean
-  //   isLoading: boolean
-  //   data: { data: PlaceType }
-  // } = useQuery(
-  //   ['placeDetails', placeId],
-  //   async () => {
-  //     const { data } = await axios({
-  //       url: `/v1/place/${placeId}`,
-  //       method: 'GET',
-  //     })
-
-  //     return data
-  //   },
-  //   { enabled: placeId, retry: false }
-  // )
-
-  // if (isError) {
-  //   toast({
-  //     title: 'Đã có lỗi xảy ra',
-  //     description:
-  //       'Lỗi khi tải dữ liệu, vui lòng kiểm tra lại đường truyền mạng!',
-  //     status: 'error',
-  //     duration: 3000,
-  //     isClosable: true,
-  //     position: 'top',
-  //   })
-  // }
+  useEffect(() => {
+    axios
+      .get(`/rooms/${params?.room_id}`)
+      .then((res) => {
+        // debugger
+        setDetails(res.data.data)
+        console.log(res.data.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -124,7 +83,6 @@ const PlaceDetailsComponent = () => {
   const navLabels = [
     { label: 'Tổng quan', to: 'overview' },
     { label: 'Tiện nghi', to: 'amenities' },
-    // { label: 'Giá phòng', to: 'room rate' },
     { label: 'Đánh giá', to: 'reviews' },
     { label: 'Nội quy', to: 'policies' },
     { label: 'Vị trí', to: 'location' },
@@ -196,17 +154,11 @@ const PlaceDetailsComponent = () => {
                 <Box paddingRight='50px'>
                   <PlaceRoute />
                   <PlaceIntro
-                    // name={placeData?.name}
-                    // address={placeData?.address}
-                    // roomData={placeData?.room_attributes}
-                    // details={placeData?.details}
-                    // placeType={placeData?.place_type}
-                    // maxNumOfPeople={
-                    //   placeData?.policy_attributes?.max_num_of_people
-                    // }
                     name='ADODDA - Vinhome Greenbay'
-                    address='Nam Từ Liêm, Hà Nội, Vietnam '
-                    roomData='Căn hộ chung cư · 28'
+                    address={details?.detailAddress}
+                    roomData={details?.area}
+                    bathRoomType={details?.bathroomType}
+                    kitchenType={details?.kitchenType}
                     details='ADODDA là căn homestay có đầy đủ tiện ích dành cho khách du lịch hoặc đi công tác tại Vinhome Greenbay Mễ Trì, Nam Từ Liêm, Hà Nội (gần hầm chui Đại lộ Thăng Long, nút giao Big C).
 
         Đây là căn hộ đầu tay tôi trang trí và chuẩn bị từng góc nhỏ để đón khách, cố gắng tạo sự thân thiện và tiện lợi đến tất cả khách hàng.
@@ -222,18 +174,10 @@ const PlaceDetailsComponent = () => {
         Vậy còn chần chừ gì nữa ngay bây giờ hãy lên kế hoạch để tận hưởng những khoảnh khắc tuyệt vời cùng nhau.
 
         Mong rằng bạn sẽ có trải nghiệm vui vẻ và đầy ý nghĩa ở ADODDA.'
-                    placeType='Căn hộ chung cư · 28'
+                    placeType={details?.roomType}
                     maxNumOfPeople='2'
                   />
-                  <Amenities
-                    listAmenties={[
-                      'Washing machine',
-                      'Sofa',
-                      'Balcony',
-                      'Microwave',
-                      'Fridge/ Freezer',
-                    ]}
-                  />
+                  <Amenities listAmenties={details} />
                   {/* <Price /> */}
                   <Reviews />
                   <PolicyAndRule
@@ -259,7 +203,11 @@ const PlaceDetailsComponent = () => {
               </Box>
               <Box flex='1'>
                 <ShareAndLikeBtn />
-                {/* <BookingForm id='1' price='100' maxNumOfPeople='5' /> */}
+                <BookingForm
+                  roomPrice={details?.roomPrice}
+                  waterPrice={details?.waterPrice}
+                  electricityPrice={details?.electricityPrice}
+                />
               </Box>
             </Flex>
           </Box>
