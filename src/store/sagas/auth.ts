@@ -55,7 +55,7 @@ function* signUpByEmailAndPasswordSaga({
     localStorage.setItem('token', token)
     if (token) {
       yield put(authSuccess(token))
-      const result = yield axios.post('/api/renters/create', {
+      const result = yield axios.post('/renters/create', {
         email: payload.email,
         name: payload.name,
       })
