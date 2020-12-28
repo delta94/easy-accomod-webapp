@@ -22,6 +22,7 @@ import Reviews from './Reviews'
 import ShareAndLikeBtn from './ShareAndLikeBtn'
 
 type Intro = {
+  _id: string
   name: string
   detailAddress: string
   area: number
@@ -37,12 +38,14 @@ type Intro = {
   roomPrice: number
   waterPrice: number
   electricityPrice: number
+  images: Array<string>
 }
 type Params = {
   room_id: string
 }
 
 const PlaceDetailsComponent = () => {
+  const token = localStorage.getItem('token')
   const toast = useToast()
   const params: Params = useParams()
   const Nav = chakra('nav')
@@ -51,6 +54,7 @@ const PlaceDetailsComponent = () => {
 
   const [showStickyNavBar, setShowStickyNavBar] = useState(false)
   const [details, setDetails] = useState<Intro>()
+  const [isBookmarked, setIsBookmarked] = useState(true)
   const handleScroll = () => {
     const position = window.pageYOffset
     if (position >= 650) {
@@ -64,8 +68,9 @@ const PlaceDetailsComponent = () => {
       .get(`/rooms/${params?.room_id}`)
       .then((res) => {
         // debugger
-        setDetails(res.data.data)
-        console.log(res.data.data)
+        setDetails(res.data.data.room)
+        setIsBookmarked(res.data.data.is_bookmarked)
+        console.log(res.data.data.room)
       })
       .catch((err) => {
         console.log(err)
@@ -141,7 +146,7 @@ const PlaceDetailsComponent = () => {
       </Nav>
       <ImageSlider
         // slide={placeData?.overviews_attributes}
-        slide={[img1, img2, img3, img4, img5]}
+        slide={details?.images}
       />
       <Box>
         <Container
@@ -202,7 +207,13 @@ const PlaceDetailsComponent = () => {
                 </Box>
               </Box>
               <Box flex='1'>
-                <ShareAndLikeBtn />
+                {token ? (
+                  <ShareAndLikeBtn
+                    roomId={details?._id}
+                    isBookmarked={isBookmarked}
+                  />
+                ) : null}
+
                 <BookingForm
                   roomPrice={details?.roomPrice}
                   waterPrice={details?.waterPrice}

@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 const BookingForm = ({ roomPrice, waterPrice, electricityPrice }: any) => {
   return (
-    <Box position='sticky' borderRadius='3px' top='100px'>
+    <Box position='sticky' borderRadius='3px' mt={20}>
       <Box border='1px solid #e9e9e9' borderRadius='4px'>
         <Box px={13} pt={6}>
           <Text textAlign='center' mb={5}>

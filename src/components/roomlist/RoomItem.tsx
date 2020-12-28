@@ -56,7 +56,7 @@ function RoomItem({
               borderRadius='3px'
             />
           ) : (
-              <Link to={`/place/${placeId}`}>
+              <Link to={`/rooms/${placeId}`}>
                 <Image
                   cursor='pointer'
                   fallbackSrc='https://www.luxstay.com/loading-img.svg'
@@ -105,7 +105,7 @@ function RoomItem({
             {isLoading ? (
               <Skeleton height={5} width='50%' />
             ) : (
-                <Link to={`/place/${placeId}`}>
+                <Link to={`/rooms/${placeId}`}>
                   <Box
                     wordBreak='break-all'
                     overflow='hidden'

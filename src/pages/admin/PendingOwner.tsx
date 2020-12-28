@@ -35,8 +35,8 @@ function PendingOwner() {
     },
     {
       title: 'CMND',
-      dataIndex: 'cmnd',
-      key: 'cmnd',
+      dataIndex: 'identity',
+      key: 'identity',
       render: (text: string) => <a>{text}</a>,
     },
     {
