@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import Layout from 'layouts/Layout'
+import AdminLayout from 'layouts/AdminLayout'
 import PendingOwner from './PendingOwner'
 import PendingRooms from './PendingRooms'
 import OwnersList from './OwnerList'
@@ -8,8 +8,8 @@ import RenterList from './RenterList'
 
 function Home() {
   return (
-    <Layout>
-      <Tabs maxW='calc(1296px + 5.6rem)' m='40px auto'>
+    <AdminLayout>
+      <Tabs maxW='90%' m='40px auto'>
         <TabList>
           <Tab>Pending Owners</Tab>
           <Tab>Pending Rooms</Tab>
@@ -32,7 +32,7 @@ function Home() {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </Layout>
+    </AdminLayout>
   )
 }
 

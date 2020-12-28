@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from 'layouts/Layout'
 import Header from 'components/account/Header'
-import SideBar from 'components/account/edit_account/SideBar'
+import SideBar from 'components/account/edit-account/SideBar'
 
 function Account() {
   return (

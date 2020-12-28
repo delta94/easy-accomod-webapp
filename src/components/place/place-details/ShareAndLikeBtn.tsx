@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Box, Button, Flex, useToast } from '@chakra-ui/react'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import axios from 'utils/axios'
@@ -7,22 +8,30 @@ const ShareAndLikeBtn = ({
   roomId,
   isBookmarked,
 }: {
-  roomId: any
+  roomId: string | undefined
   isBookmarked: boolean
 }) => {
   const [bookmarked, setBookmarked] = useState(isBookmarked)
+  useEffect(() => {
+    setBookmarked(isBookmarked)
+  }, [isBookmarked])
 
   const handleSubmit = () => {
     if (!bookmarked) {
+      debugger
       axios.post('/bookmarks/create', { roomId }).then((res) => {
         console.log(res)
+      }).catch((err) => {
+        console.log(err)
       })
+      setBookmarked(true)
     } else {
+      debugger
       axios.put('/bookmarks/delete', { roomId }).then((res) => {
         console.log(res)
       })
+      setBookmarked(false)
     }
-    setBookmarked(!bookmarked)
   }
   return (
     <Box padding='1.5rem 0'>
@@ -37,11 +46,11 @@ const ShareAndLikeBtn = ({
             bookmarked ? (
               <FaHeart style={{ color: 'red' }} fontSize='18px' />
             ) : (
-              <FaRegHeart fontSize='18px' />
-            )
+                <FaRegHeart fontSize='18px' />
+              )
           }
           backgroundColor='#fff'>
-          Lưu lại
+          {bookmarked ? 'Huỷ lưu' : 'Lưu lại'}
         </Button>
       </Flex>
     </Box>

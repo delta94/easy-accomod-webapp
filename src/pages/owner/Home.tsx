@@ -1,13 +1,13 @@
 import { Box, Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react'
 import 'antd/dist/antd.css'
-import Layout from 'layouts/Layout'
+import OwnerLayout from 'layouts/OwnerLayout'
 import LiveRooms from 'components/owner/LiveRooms'
 import PendingRooms from 'components/owner/PendingRooms'
 import RentedRooms from 'components/owner/RentedRooms'
 import RejectRooms from 'components/owner/RejectRooms'
 
 const Host = () => (
-  <Layout>
+  <OwnerLayout>
     <Tabs
       size='md'
       variant='enclosed'
@@ -35,7 +35,7 @@ const Host = () => (
         </TabPanel>
       </TabPanels>
     </Tabs>
-  </Layout>
+  </OwnerLayout>
 )
 
 export default Host

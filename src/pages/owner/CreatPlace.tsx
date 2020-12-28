@@ -4,8 +4,9 @@ import PlaceInformation from 'components/new-place/place-information/PlaceInform
 import PlaceImage from 'components/new-place/place-image/PlaceImage'
 import PricePolicy from 'components/new-place/price-policy/PricePolicy'
 import React, { useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import 'antd/dist/antd.css'
+import OwnerLayout from 'layouts/OwnerLayout'
 import { Steps } from 'antd'
 
 const { Step } = Steps
@@ -123,37 +124,39 @@ const CreatePlace = () => {
   ]
 
   return (
-    <Box mb={5}>
-      <Box maxW='80%' m='30px auto' pb={5}>
-        <Steps current={current} direction='horizontal'>
-          {steps.map((item) => (
-            <Step
-              key={item.title}
-              title={item.title}
-              style={{ fontWeight: 'bold' }}
-            />
-          ))}
-        </Steps>
-        <div className='steps-content'>{steps[current].content}</div>
-        <div className='steps-action buttonWrapperClass'>
-          {current < steps.length - 1 && (
-            <Button colorScheme='orange' mr={5} onClick={() => next()}>
-              Next
-            </Button>
-          )}
-          {current === steps.length - 1 && (
-            <Button colorScheme='orange' mr={5} onClick={() => next()}>
-              Done
-            </Button>
-          )}
-          {current > 0 && (
-            <Button colorScheme='teal' onClick={() => prev()}>
-              Previous
-            </Button>
-          )}
-        </div>
+    <OwnerLayout>
+      <Box mb={5}>
+        <Box maxW='80%' m='30px auto' pb={5}>
+          <Steps current={current} direction='horizontal'>
+            {steps.map((item) => (
+              <Step
+                key={item.title}
+                title={item.title}
+                style={{ fontWeight: 'bold' }}
+              />
+            ))}
+          </Steps>
+          <div className='steps-content'>{steps[current].content}</div>
+          <div className='steps-action buttonWrapperClass'>
+            {current < steps.length - 1 && (
+              <Button colorScheme='orange' mr={5} onClick={() => next()}>
+                Next
+              </Button>
+            )}
+            {current === steps.length - 1 && (
+              <Button colorScheme='orange' mr={5} onClick={() => next()}>
+                Done
+              </Button>
+            )}
+            {current > 0 && (
+              <Button colorScheme='teal' onClick={() => prev()}>
+                Previous
+              </Button>
+            )}
+          </div>
+        </Box>
       </Box>
-    </Box>
+    </OwnerLayout>
   )
 }
 

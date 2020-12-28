@@ -3,14 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-scroll'
 import axios from 'utils/axios'
 import { useParams } from 'react-router-dom'
-import { useQuery } from 'react-query'
-import img1 from 'assets/places/1.jpg'
-import img2 from 'assets/places/2.jpg'
-import img3 from 'assets/places/3.jpg'
-import img4 from 'assets/places/4.jpg'
-import img5 from 'assets/places/5.png'
 import Amenities from './Amenities'
-// import BookingForm from './BookingForm'
 import ImageSlider from './ImageSlider'
 import Location from './Location'
 import PlaceIntro from './PlaceIntro'
@@ -24,6 +17,7 @@ import ShareAndLikeBtn from './ShareAndLikeBtn'
 type Intro = {
   _id: string
   name: string
+  description: string
   detailAddress: string
   area: number
   roomType: string
@@ -49,12 +43,12 @@ const PlaceDetailsComponent = () => {
   const toast = useToast()
   const params: Params = useParams()
   const Nav = chakra('nav')
-  // const NavItem = chakra(Link)
   const NavItem = chakra(Link)
 
   const [showStickyNavBar, setShowStickyNavBar] = useState(false)
   const [details, setDetails] = useState<Intro>()
   const [isBookmarked, setIsBookmarked] = useState(true)
+  const [reviews, setReviews] = useState([])
   const handleScroll = () => {
     const position = window.pageYOffset
     if (position >= 650) {
@@ -67,10 +61,9 @@ const PlaceDetailsComponent = () => {
     axios
       .get(`/rooms/${params?.room_id}`)
       .then((res) => {
-        // debugger
         setDetails(res.data.data.room)
         setIsBookmarked(res.data.data.is_bookmarked)
-        console.log(res.data.data.room)
+        setReviews(res.data.data.reviews)
       })
       .catch((err) => {
         console.log(err)
@@ -159,32 +152,18 @@ const PlaceDetailsComponent = () => {
                 <Box paddingRight='50px'>
                   <PlaceRoute />
                   <PlaceIntro
-                    name='ADODDA - Vinhome Greenbay'
+                    name={details?.name}
                     address={details?.detailAddress}
                     roomData={details?.area}
                     bathRoomType={details?.bathroomType}
                     kitchenType={details?.kitchenType}
-                    details='ADODDA là căn homestay có đầy đủ tiện ích dành cho khách du lịch hoặc đi công tác tại Vinhome Greenbay Mễ Trì, Nam Từ Liêm, Hà Nội (gần hầm chui Đại lộ Thăng Long, nút giao Big C).
-
-        Đây là căn hộ đầu tay tôi trang trí và chuẩn bị từng góc nhỏ để đón khách, cố gắng tạo sự thân thiện và tiện lợi đến tất cả khách hàng.
-
-        Từ ADODDA bạn có thể dễ dàng di chuyển đến Trung tâm hành chính của Hà Nội, khu phố cổ, đường lên sân bay Nội Bài, các địa điểm du lịch.
-
-        Việc đón taxi cũng khá thuận tiện, gần Kengnam,...
-
-        Bên cạnh đó, tôi cũng là một người bản địa vô cùng thân thiện và thoải mái. Chính vì vậy đừng ngại ngần mà chia sẻ với chúng tôi những điều bạn đang thắc mắc hoặc những khó khăn bạn gặp phải khi ở đây.
-
-        Chúng tôi cũng luôn mong muốn được cùng bạn khám phá nhiều địa điểm tốt đẹp nhất tại đây.
-
-        Vậy còn chần chừ gì nữa ngay bây giờ hãy lên kế hoạch để tận hưởng những khoảnh khắc tuyệt vời cùng nhau.
-
-        Mong rằng bạn sẽ có trải nghiệm vui vẻ và đầy ý nghĩa ở ADODDA.'
+                    details={details?.description}
                     placeType={details?.roomType}
                     maxNumOfPeople='2'
                   />
                   <Amenities listAmenties={details} />
                   {/* <Price /> */}
-                  <Reviews />
+                  <Reviews roomId={details?._id} reviews={reviews} />
                   <PolicyAndRule
                   // policy={placeData?.policy_attributes}
                   // rule={placeData?.rule_attributes}

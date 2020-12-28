@@ -4,7 +4,6 @@
 
 import { Box, Image, Text, Stack, Skeleton } from '@chakra-ui/react'
 import { AiFillStar } from 'react-icons/ai'
-import { FaRegHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { AmountFormat } from 'utils/amountFormat'
 

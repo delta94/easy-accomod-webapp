@@ -30,7 +30,7 @@ import { HamburgerIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import Logo from 'assets/logo2.png'
 import Search from 'components/filter/Search'
 
-export default function Header() {
+export default function AdminHeader() {
   const toast = useToast()
   const history = useHistory()
   const { dispatch } = useRedux()
@@ -38,25 +38,37 @@ export default function Header() {
   const [name, setName] = useState('')
 
   useEffect(() => {
-    auth.onAuthStateChanged(async () => {
-      try {
-        const result = await axios.get('/profile')
-        const { data } = result.data
-        setName(data.name)
-        debugger
-      } catch (error) {
-        if (error.response.status === 403) {
-          signOut()
-          toast({
-            title: 'Có sự cố xảy ra',
-            description: 'Bạn không đủ quyền để truy cập trang này',
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top',
-          })
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const result = await axios.get('/profile')
+          const { data } = result.data
+          setName(data.name)
           debugger
+        } catch (error) {
+          if (error.response.status === 403) {
+            signOut()
+            toast({
+              title: 'Có sự cố xảy ra',
+              description: 'Bạn không đủ quyền để truy cập trang này',
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+              position: 'top',
+            })
+            debugger
+          }
         }
+      } else {
+        history.push('/login')
+        toast({
+          title: 'Có sự cố xảy ra',
+          description: 'Bạn cần đăng nhập tài khoản admin để tiếp tục',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+        })
       }
     })
   }, [])
@@ -68,11 +80,7 @@ export default function Header() {
       actions.signOut()
     )
     localStorage.clear()
-    history.push('/')
-  }
-
-  const redirectToOwner = () => {
-    window.location.hostname = 'owner.localhost'
+    history.push('/login')
   }
 
   return (
@@ -134,39 +142,22 @@ export default function Header() {
           <Search />
           <Spacer />
           {name !== '' ? (
-            <>
-              <Button variant='ghost' onClick={redirectToOwner}>
-                Host
-              </Button>
-              <Menu>
-                <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                  {name}
-                </MenuButton>
-                <MenuList>
-                  <MenuItem>
-                    <Link to='/account'>Cài đặt tài khoản</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link to='/bookmarks'>Yêu thích</Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Button onClick={signOut} variant='link'>
-                      Đăng xuất
+            <Menu>
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                {name}
+              </MenuButton>
+              <MenuList>
+                <MenuItem>
+                  <Button onClick={signOut} variant='link'>
+                    Đăng xuất
                   </Button>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </>
+                </MenuItem>
+              </MenuList>
+            </Menu>
           ) : (
               <Flex d='flex' alignItems='center'>
-                <Button variant='ghost' onClick={redirectToOwner}>
-                  Host
-                </Button>
                 <Button variant='ghost'>
                   <Link to='/login'>Đăng nhập</Link>
-                </Button>
-                <Button variant='ghost'>
-                  <Link to='/signup'>Đăng ký</Link>
                 </Button>
               </Flex>
             )}

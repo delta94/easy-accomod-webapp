@@ -21,7 +21,6 @@ function* logInByEmailAndPasswordSaga({
         let errorMessage = error.message
         if (errorCode === 'auth/wrong-password') {
           alert('Wrong password.')
-          debugger
         } else {
           alert(errorMessage)
         }

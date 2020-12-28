@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable operator-linebreak */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -13,12 +14,11 @@ import {
   Heading,
   Skeleton,
   Text,
-  useToast,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'utils/axios'
 import { AiFillStar } from 'react-icons/ai'
 import { Element } from 'react-scroll'
-import { useQuery } from 'react-query'
 import ReviewForm from './ReviewForm'
 
 type RatingType = {
@@ -28,47 +28,10 @@ type RatingType = {
   user_avatar: string
 }[]
 
-const Reviews = () => {
+const Reviews = ({ roomId, reviews }: { roomId: string | undefined, reviews: any }) => {
   const NavLabel = chakra(Element)
-
-  // const toast = useToast()
-
-  // const {
-  //   isLoading,
-  //   isError,
-  //   refetch,
-  //   data: { data: reviews } = {} as any,
-  // }: {
-  //   isError: boolean
-  //   isLoading: boolean
-  //   data: { data: RatingType }
-  //   refetch: any
-  // } = useQuery(
-  //   ['placeReviews', id],
-  //   async () => {
-  //     const { data } = await axios({
-  //       url: `/v1/place/${id}/ratings`,
-  //       method: 'GET',
-  //     })
-
-  //     return data
-  //   },
-  //   { enabled: id, retry: false, refetchOnWindowFocus: false }
-  // )
-
-  // if (isError) {
-  //   toast({
-  //     title: 'Đã có lỗi xảy ra',
-  //     description:
-  //       'Lỗi khi tải dữ liệu, vui lòng kiểm tra lại đường truyền mạng!',
-  //     status: 'error',
-  //     duration: 3000,
-  //     isClosable: true,
-  //     position: 'top',
-  //   })
-  // }
   const [isLoading, setLoading] = useState(false)
-  const [reviews, setReviews] = useState([]) as any
+  const [data, setData] = useState([]) as any
   const addReview = ({
     comment,
     score,
@@ -76,8 +39,16 @@ const Reviews = () => {
     comment: string
     score: number
   }) => {
-    setReviews([...reviews, { comment, score }])
+    setData([...data, { comment, score }])
+    axios.post('/reviews/create', { content: comment, rating: score, roomId })
+      .then((res) => { console.log(res) })
+      .catch((err) => { console.log(err) })
   }
+
+  useEffect(() => {
+    setData(reviews)
+  }, [reviews])
+
   return (
     <NavLabel className='place-details-reviews' name='reviews' mt={20}>
       <Box className='reviews-title'>
@@ -89,8 +60,8 @@ const Reviews = () => {
           Đánh giá
         </Heading>
       </Box>
-      {reviews?.length &&
-        reviews?.map((r: any) => (
+      {data?.length &&
+        data?.map((r: any) => (
           <Box className='single-review' my={8}>
             <Box display='flex' flexDirection='row'>
               <Avatar name='Dan Abrahmov' />
@@ -102,14 +73,14 @@ const Reviews = () => {
                     lineHeight='shorter'
                     fontSize='md'>
                     {!isLoading ? (
-                      'aaa'
+                      r.renter.name
                     ) : (
-                      <Skeleton mt={1} height='12px' width='120px' />
-                    )}
+                        <Skeleton mt={1} height='12px' width='120px' />
+                      )}
                   </Heading>
                 </Box>
                 <Box display='flex' marginLeft={3} color='#FFB500' pt={0.25}>
-                  {[...Array(r.score)].map((_, idx) => (
+                  {[...Array(r.rating)].map((_, idx) => (
                     <AiFillStar fontSize={24} key={idx} />
                   ))}
                 </Box>
@@ -118,16 +89,16 @@ const Reviews = () => {
             <Box className='reviews-content' mt={5}>
               <Text color='#555'>
                 {!isLoading ? (
-                  r.comment
+                  r.content
                 ) : (
-                  <Skeleton mt={1} height='12px' width='240px' />
-                )}
+                    <Skeleton mt={1} height='12px' width='240px' />
+                  )}
               </Text>
             </Box>
           </Box>
         ))}
       <Divider />
-      <ReviewForm addReview={addReview} />
+      {localStorage.getItem('token') ? <ReviewForm addReview={addReview} /> : null}
     </NavLabel>
   )
 }
