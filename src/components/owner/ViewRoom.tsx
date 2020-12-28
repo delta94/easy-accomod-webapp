@@ -3,18 +3,20 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-scroll'
 import axios from 'utils/axios'
 import { useParams } from 'react-router-dom'
-
-import ImageSlider from 'components/place/place-details/ImageSlider'
 import Amenities from 'components/place/place-details/Amenities'
+import ImageSlider from 'components/place/place-details/ImageSlider'
 import Location from 'components/place/place-details/Location'
 import PlaceIntro from 'components/place/place-details/PlaceIntro'
 import PlaceRoute from 'components/place/place-details/PlaceRoute'
 import PolicyAndRule from 'components/place/place-details/PolicyAndRule'
 import BookingForm from 'components/place/place-details/BookingForm'
-import Actions from './Actions'
+import Reviews from 'components/place/place-details/Reviews'
+import Action from './Action'
 
 type Intro = {
+  _id: string
   name: string
+  description: string
   detailAddress: string
   area: number
   roomType: string
@@ -31,21 +33,22 @@ type Intro = {
   electricityPrice: number
   images: Array<string>
   owner: { name: string }
-  description: string
 }
 type Params = {
   room_id: string
 }
 
-const PlaceDetailsComponent = () => {
+const ViewRoom = () => {
+  const token = localStorage.getItem('token')
   const toast = useToast()
   const params: Params = useParams()
   const Nav = chakra('nav')
-  // const NavItem = chakra(Link)
   const NavItem = chakra(Link)
 
   const [showStickyNavBar, setShowStickyNavBar] = useState(false)
   const [details, setDetails] = useState<Intro>()
+  const [isBookmarked, setIsBookmarked] = useState(true)
+  const [reviews, setReviews] = useState([])
   const handleScroll = () => {
     const position = window.pageYOffset
     if (position >= 650) {
@@ -58,9 +61,9 @@ const PlaceDetailsComponent = () => {
     axios
       .get(`/rooms/${params?.room_id}`)
       .then((res) => {
-        // debugger
         setDetails(res.data.data.room)
-        console.log(res.data.data.room)
+        setIsBookmarked(res.data.data.is_bookmarked)
+        setReviews(res.data.data.reviews)
       })
       .catch((err) => {
         console.log(err)
@@ -154,19 +157,22 @@ const PlaceDetailsComponent = () => {
                     roomData={details?.area}
                     bathRoomType={details?.bathroomType}
                     kitchenType={details?.kitchenType}
-                    description={details?.description}
+                    details={details?.description}
                     placeType={details?.roomType}
                     maxNumOfPeople='2'
                     ownerName={details?.owner?.name}
+                    description={details?.description}
                   />
                   <Amenities listAmenties={details} />
+                  {/* <Price /> */}
+                  <Reviews roomId={details?._id} reviews={reviews} />
                   <PolicyAndRule />
                   <Location />
                 </Box>
               </Box>
-
               <Box flex='1'>
-                <Actions />
+                {token ? <Action /> : null}
+
                 <BookingForm
                   roomPrice={details?.roomPrice}
                   waterPrice={details?.waterPrice}
@@ -181,4 +187,4 @@ const PlaceDetailsComponent = () => {
   )
 }
 
-export default PlaceDetailsComponent
+export default ViewRoom

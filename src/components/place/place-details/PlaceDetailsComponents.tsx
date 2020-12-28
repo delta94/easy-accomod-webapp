@@ -33,6 +33,7 @@ type Intro = {
   waterPrice: number
   electricityPrice: number
   images: Array<string>
+  owner: { name: string }
 }
 type Params = {
   room_id: string
@@ -160,28 +161,13 @@ const PlaceDetailsComponent = () => {
                     details={details?.description}
                     placeType={details?.roomType}
                     maxNumOfPeople='2'
+                    ownerName={details?.owner?.name}
+                    description={details?.description}
                   />
                   <Amenities listAmenties={details} />
                   {/* <Price /> */}
                   <Reviews roomId={details?._id} reviews={reviews} />
-                  <PolicyAndRule
-                  // policy={placeData?.policy_attributes}
-                  // rule={placeData?.rule_attributes}
-                  // policy='Linh hoạt: Miễn phí hủy phòng trong vòng 48h sau khi đặt phòng thành công và trước 1 ngày so với thời gian check-in. Sau đó, hủy phòng trước 1 ngày so với thời gian check-in, được hoàn lại 100% tổng số tiền đã trả (trừ phí dịch vụ).'
-                  // rule='Khách báo trước giờ nhận phòng 3 tiếng.
-
-                  //     Khách cần giao hộ chiếu hoặc căn cước công dân cho chủ nhà.
-
-                  //     Không sử dụng các chất kích thích
-
-                  //     Không mở nhạc quá 11 PM (23:00)
-
-                  //     Không hút thuốc trong phòng ngủ
-
-                  //     Không mở tiệc trong phòng
-
-                  //     Vui lòng tắt các thiết bị khi bạn ra khỏi phòng'
-                  />
+                  <PolicyAndRule />
                   <Location />
                 </Box>
               </Box>

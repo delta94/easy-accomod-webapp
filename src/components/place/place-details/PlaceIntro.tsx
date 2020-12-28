@@ -18,10 +18,11 @@ const PlaceIntro = ({
   name,
   address,
   roomData,
-  details,
   placeType,
   kitchenType,
   bathRoomType,
+  ownerName,
+  description,
 }: any) => {
   const NavLabel = chakra(Element)
   const [truncated, setTruncated] = useState(true)
@@ -29,14 +30,13 @@ const PlaceIntro = ({
     <NavLabel className='place-details-overviews' name='overview'>
       <Box>
         <Flex justifyContent='space-between'>
-          <Heading as='h1' fontSize='4xl' flexBasis='77%' fontWeight='bolder'>
-            {name}
-          </Heading>
+          <Heading as='h1' fontSize='4xl' flexBasis='77%' fontWeight='bolder' />
           <Box flexBasis='16%' alignContent='center' textAlign='end'>
             <Avatar
               size='lg'
               src='https://cdn.luxstay.com/rooms/34370/large/2f78a6f10c83e81708f369287c87e4b6.png'
             />
+            <Text>{ownerName}</Text>
           </Box>
         </Flex>
       </Box>
@@ -81,7 +81,7 @@ const PlaceIntro = ({
                 color='#222'
                 isTruncated={truncated}
                 noOfLines={truncated ? 3 : 0}>
-                {details}
+                {description}
               </Text>
               <Button
                 onClick={() => setTruncated(!truncated)}

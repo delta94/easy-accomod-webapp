@@ -3,9 +3,10 @@ import { Route, Switch } from 'react-router-dom'
 
 import Home from 'pages/owner/Home'
 import CreatPlace from 'pages/owner/CreatPlace'
-import PreviewRoom from 'pages/admin/PreviewRoom'
+import PreviewRoom from 'components/owner/PreviewRoom'
 import Login from 'pages/owner/Login'
 import Signup from 'pages/owner/Signup'
+import ViewRoom from 'components/owner/ViewRoom'
 import NotFound from '../pages/static-page/NotFound'
 
 export default function OwnerRouter() {
@@ -16,6 +17,7 @@ export default function OwnerRouter() {
       <Route path='/signup' component={Signup} />
       <Route path='/create-room' component={CreatPlace} />
       <Route path='/rooms/:room_id/preview' component={PreviewRoom} />
+      <Route path='/rooms/:room_id/view' component={ViewRoom} />
       <Route component={NotFound} />
     </Switch>
   )

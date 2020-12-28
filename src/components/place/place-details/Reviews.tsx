@@ -39,7 +39,7 @@ const Reviews = ({ roomId, reviews }: { roomId: string | undefined, reviews: any
     comment: string
     score: number
   }) => {
-    setData([...data, { comment, score }])
+    setData([...data, { content: comment, rating: score }])
     axios.post('/reviews/create', { content: comment, rating: score, roomId })
       .then((res) => { console.log(res) })
       .catch((err) => { console.log(err) })
@@ -64,7 +64,7 @@ const Reviews = ({ roomId, reviews }: { roomId: string | undefined, reviews: any
         data?.map((r: any) => (
           <Box className='single-review' my={8}>
             <Box display='flex' flexDirection='row'>
-              <Avatar name='Dan Abrahmov' />
+              <Avatar name={r.renter?.name || 'Me'} />
               <Box ml={2} display='flex' pt={1}>
                 <Box>
                   <Heading
@@ -73,7 +73,7 @@ const Reviews = ({ roomId, reviews }: { roomId: string | undefined, reviews: any
                     lineHeight='shorter'
                     fontSize='md'>
                     {!isLoading ? (
-                      r.renter.name
+                      r.renter?.name || 'Me'
                     ) : (
                         <Skeleton mt={1} height='12px' width='120px' />
                       )}

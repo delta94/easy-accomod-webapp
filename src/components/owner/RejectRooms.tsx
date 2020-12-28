@@ -1,86 +1,64 @@
 /* eslint-disable react/display-name */
-import { Table, Tag, Space } from 'antd'
-import { Button, ButtonGroup, Box } from '@chakra-ui/react'
+import { Table } from 'antd'
+import { Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'utils/axios'
 import 'antd/dist/antd.css'
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: 'Room Type',
-    dataIndex: 'roomType',
-    key: 'roomType',
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: 'Price',
-    dataIndex: 'price',
-    key: 'pricec',
-  },
-  {
-    title: 'Area',
-    dataIndex: 'area',
-    key: 'area',
-  },
-  {
-    title: 'Reason',
-    dataIndex: 'reason',
-    key: 'reason',
-    width: '20%',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text: string) => (
-      <Button colorScheme='orange' mr='10px'>
-        <Link to='/rooms/:room_id/preview'>Xem</Link>
-      </Button>
-    ),
-  },
-]
-
-const data = [
-  {
-    key: '1',
-    name: 'Joe Black',
-    roomType: 32,
-    address: 'Sidney No. 1 Lake Park',
-    price: '123458',
-    area: '12345678',
-  },
-  {
-    key: '1',
-    name: 'Joe Black',
-    roomType: 32,
-    address: 'Sidney No. 1 Lake Park',
-    price: '123458',
-    area: '12345678',
-  },
-  {
-    key: '1',
-    name: 'Joe Black',
-    roomType: 32,
-    address: 'Sidney No. 1 Lake Park',
-    price: '123458',
-    area: '12345678',
-  },
-]
-
 function RejectRooms() {
-  return <Table columns={columns} dataSource={data} />
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <a>{text}</a>,
+    },
+    {
+      title: 'Address',
+      dataIndex: 'detailAddress',
+      key: 'detailAddress',
+      render: (text: string) => <a>{text}</a>,
+    },
+    {
+      title: 'Room Type',
+      dataIndex: 'roomType',
+      key: 'roomType',
+      render: (text: string) => <a>{text}</a>,
+    },
+    {
+      title: 'Price',
+      dataIndex: 'roomPrice',
+      key: 'roomPrice',
+    },
+    {
+      title: 'Area',
+      dataIndex: 'area',
+      key: 'area',
+    },
+    {
+      title: 'Action',
+      dataIndex: '_id',
+      key: '_id',
+      render: (id: string) => (
+        <Button colorScheme='orange' mr='10px'>
+          <Link to={`/rooms/${id}/preview`}>Xem</Link>
+        </Button>
+      ),
+    },
+  ]
+  const [pendingRoom, setpendingRoom] = useState<any>([])
+  useEffect(() => {
+    axios
+      .get(`/owner/rooms/rejected`)
+      .then((res) => {
+        setpendingRoom(res.data.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+  return <Table columns={columns} dataSource={pendingRoom} />
 }
 
 export default RejectRooms

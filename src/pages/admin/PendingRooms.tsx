@@ -6,16 +6,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'utils/axios'
 import 'antd/dist/antd.css'
 
-type OwnerPending = [
-  {
-    _id: string
-    address: string
-    roomType: string
-    roomPrice: number
-    area: number
-  }
-]
-
 function PendingRooms() {
   const columns = [
     {

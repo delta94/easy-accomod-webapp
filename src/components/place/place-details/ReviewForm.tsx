@@ -78,7 +78,7 @@ const ReviewForm = ({ addReview }: { addReview: Function }) => {
   return (
     <Box className='single-review' my={8}>
       <Box display='flex' flexDirection='row'>
-        <Avatar name='Dan Abrahmov' />
+        <Avatar name='Me' />
         <Box ml={2} display='flex' pt={1}>
           <Box>
             <Heading
