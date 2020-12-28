@@ -1,12 +1,13 @@
 /* eslint-disable react/display-name */
 import { Table } from 'antd'
-import { Button } from '@chakra-ui/react'
+import { Button, useToast } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import axios from 'utils/axios'
 import 'antd/dist/antd.css'
 
 function LiveRooms() {
+  const toast = useToast()
   const columns = [
     {
       title: 'Name',

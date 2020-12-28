@@ -30,7 +30,9 @@ const PlaceIntro = ({
     <NavLabel className='place-details-overviews' name='overview'>
       <Box>
         <Flex justifyContent='space-between'>
-          <Heading as='h1' fontSize='4xl' flexBasis='77%' fontWeight='bolder' />
+          <Heading as='h1' fontSize='4xl' flexBasis='77%' fontWeight='bolder'>
+            {name}
+          </Heading>
           <Box flexBasis='16%' alignContent='center' textAlign='end'>
             <Avatar
               size='lg'

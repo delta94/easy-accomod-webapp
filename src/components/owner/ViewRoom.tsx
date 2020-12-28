@@ -11,6 +11,7 @@ import PlaceRoute from 'components/place/place-details/PlaceRoute'
 import PolicyAndRule from 'components/place/place-details/PolicyAndRule'
 import BookingForm from 'components/place/place-details/BookingForm'
 import Reviews from 'components/place/place-details/Reviews'
+import Layout from 'layouts/OwnerLayout'
 import Action from './Action'
 
 type Intro = {
@@ -87,7 +88,7 @@ const ViewRoom = () => {
   ]
 
   return (
-    <Box>
+    <Layout>
       <Nav
         padding='1.5rem 0'
         display={showStickyNavBar ? 'flex' : 'none'}
@@ -183,7 +184,7 @@ const ViewRoom = () => {
           </Box>
         </Container>
       </Box>
-    </Box>
+    </Layout>
   )
 }
 

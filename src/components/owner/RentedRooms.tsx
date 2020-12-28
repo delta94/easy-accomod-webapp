@@ -1,12 +1,18 @@
 /* eslint-disable react/display-name */
 import { Table } from 'antd'
-import { Button } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
+import { Button, useToast } from '@chakra-ui/react'
+import { Link, useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import axios from 'utils/axios'
+
 import 'antd/dist/antd.css'
 
+type Params = {
+  room_id: string
+}
 function RentedRooms() {
+  const toast = useToast()
+  const params: Params = useParams()
   const columns = [
     {
       title: 'Name',
@@ -46,6 +52,16 @@ function RentedRooms() {
         </Button>
       ),
     },
+    {
+      title: 'Remake',
+      dataIndex: '_id',
+      key: '_id',
+      render: (id: string) => (
+        <Button colorScheme='orange' mr='10px' onClick={() => handleRemake(id)}>
+          Remake
+        </Button>
+      ),
+    },
   ]
   const [rentRoom, setRentRoom] = useState<any>([])
   useEffect(() => {
@@ -58,6 +74,34 @@ function RentedRooms() {
         console.log(err)
       })
   }, [])
+  const handleRemake = (id: any) => {
+    axios
+      .put(`/owner/rooms/${id}/return`)
+      .then((res) => {
+        console.log(res)
+        setRentRoom(rentRoom.filter((item: any) => item._id !== id))
+        toast({
+          title: 'Thành công',
+          description: 'Bạn đã remake thành công',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+        })
+        debugger
+      })
+      .catch((err) => {
+        console.log(err)
+        toast({
+          title: 'Có sự cố xảy ra',
+          description: 'Bạn không đủ quyền để truy cập trang này',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+        })
+      })
+  }
   return <Table columns={columns} dataSource={rentRoom} />
 }
 
