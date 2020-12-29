@@ -14,6 +14,7 @@ import BookingForm from 'components/place/place-details/BookingForm'
 import Actions from './Actions'
 
 type Intro = {
+  _id: string
   name: string
   detailAddress: string
   area: number
@@ -30,7 +31,7 @@ type Intro = {
   waterPrice: number
   electricityPrice: number
   images: Array<string>
-  owner: { name: string }
+  owner: { name: string; _id: string }
   description: string
 }
 type Params = {
@@ -166,7 +167,7 @@ const PlaceDetailsComponent = () => {
               </Box>
 
               <Box flex='1'>
-                <Actions />
+                <Actions roomId={details?._id} ownerId={details?.owner?._id} />
                 <BookingForm
                   roomPrice={details?.roomPrice}
                   waterPrice={details?.waterPrice}

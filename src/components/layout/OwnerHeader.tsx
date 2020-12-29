@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react'
@@ -57,7 +58,6 @@ export default function Header() {
               isClosable: true,
               position: 'top',
             })
-            debugger
           }
         }
       } else {
@@ -158,7 +158,7 @@ export default function Header() {
                   <EmailIcon />
                 </MenuButton>
                 <MenuList w='350px'>
-                  <Notifi />
+                  <Notifi role='owner' />
                 </MenuList>
               </Menu>
               <Menu>

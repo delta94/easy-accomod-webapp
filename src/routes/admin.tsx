@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import Home from 'pages/admin/Home'
 import PreviewRoom from 'pages/admin/PreviewRoom'
 import NotFound from '../pages/static-page/NotFound'
-import Login from '../pages/renter/Login'
+import Login from '../pages/admin/Login'
 
 export default function AdminRouter() {
   return (

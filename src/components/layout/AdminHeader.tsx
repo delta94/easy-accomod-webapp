@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react'
@@ -28,7 +29,6 @@ import actions from 'store/actions'
 
 import { HamburgerIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import Logo from 'assets/logo2.png'
-import Search from 'components/filter/Search'
 
 export default function AdminHeader() {
   const toast = useToast()
@@ -46,7 +46,7 @@ export default function AdminHeader() {
           setName(data.name)
           debugger
         } catch (error) {
-          if (error.response.status === 403) {
+          if (error.response?.status === 403 || 401) {
             signOut()
             toast({
               title: 'Có sự cố xảy ra',
@@ -56,19 +56,8 @@ export default function AdminHeader() {
               isClosable: true,
               position: 'top',
             })
-            debugger
           }
         }
-      } else {
-        history.push('/login')
-        toast({
-          title: 'Có sự cố xảy ra',
-          description: 'Bạn cần đăng nhập tài khoản admin để tiếp tục',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top',
-        })
       }
     })
   }, [])
@@ -127,7 +116,7 @@ export default function AdminHeader() {
       <Box
         height='85px'
         w='100%'
-        mb= {5}
+        mb={5}
         pb={3}
         display={{ sm: 'none', md: 'none', lg: 'block' }}
         borderBottom='1px solid rgb(226 232 240)'>
@@ -141,7 +130,6 @@ export default function AdminHeader() {
           <Link to='/'>
             <Image src={Logo} width='60px' height='60px' />
           </Link>
-          <Search />
           <Spacer />
           {name !== '' ? (
             <Menu>
