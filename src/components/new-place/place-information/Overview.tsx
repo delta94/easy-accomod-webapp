@@ -20,16 +20,16 @@ const Overview = ({
   syncOverview: Function
   data: any
 }) => {
-  const [overview, setOverview] = useState(data.details)
+  const [description, setDescription] = useState(data.description)
 
   useEffect(() => {
-    if (overview !== '') {
-      syncOverview(overview)
+    if (description !== '') {
+      syncOverview(description)
       completeTab(true)
     } else {
       completeTab(false)
     }
-  }, [completeTab, overview, syncOverview])
+  }, [completeTab, description, syncOverview])
 
   return (
     <Flex>
@@ -48,9 +48,9 @@ const Overview = ({
           <Textarea
             placeholder='Tổng quan về chỗ nghỉ của bạn'
             onChange={(event) => {
-              setOverview(event.target.value)
+              setDescription(event.target.value)
             }}
-            value={overview}
+            value={description}
           />
         </FormControl>
       </Box>

@@ -6,54 +6,52 @@ import { useEffect, useState } from 'react'
 
 const Facility = ({
   completeTab,
-  syncFacilities,
+  syncWaterHeater,
+  syncConditioner,
+  syncBalcony,
+  syncFridge,
+  syncBed,
+  syncWardrobe,
   data,
 }: {
   completeTab: Function
-  syncFacilities: Function
+  syncWaterHeater: Function
+  syncConditioner: Function
+  syncBalcony: Function
+  syncFridge: Function
+  syncBed: Function
+  syncWardrobe: Function
   data: any
 }) => {
-  const initData = (id: number) => {
-    const index = data.findIndex((item: any) => item.facility_id === id)
-    if (index !== -1) {
-      return true
-    }
-    return false
-  }
-
-  const [hasTV, setHasTV] = useState(initData(2))
-  const [hasWifi, setHasWifi] = useState(initData(1))
-  const [hasConditioner, setHasConditioner] = useState(initData(3))
-  const [hasWashingMachine, setHasWashingMachine] = useState(initData(4))
-  const [hasBalcony, setHasBalcony] = useState(initData(7))
-  const [hasMicrowave, setHasMicrowave] = useState(initData(5))
-  const [hasFridge, setHasFridge] = useState(initData(6))
-  const [hasSofa, setHasSofa] = useState(initData(8))
+  const [hasWaterHeater, setHasWaterHeater] = useState(data.hasWaterHeater)
+  const [hasConditioner, setHasConditioner] = useState(data.hasConditioner)
+  const [hasBalcony, setHasBalcony] = useState(data.hasBalcony)
+  const [hasFridge, setHasFridge] = useState(data.hasFridge)
+  const [hasBed, setHasBed] = useState(data.hasBed)
+  const [hasWardrobe, setHasWardrobe] = useState(data.hasWardrobe)
 
   useEffect(() => {
-    const facilities = []
-    if (hasWifi) facilities.push({ facility_id: 1 })
-    if (hasTV) facilities.push({ facility_id: 2 })
-    if (hasConditioner) facilities.push({ facility_id: 3 })
-    if (hasWashingMachine) facilities.push({ facility_id: 4 })
-    if (hasMicrowave) facilities.push({ facility_id: 5 })
-    if (hasFridge) facilities.push({ facility_id: 6 })
-    if (hasBalcony) facilities.push({ facility_id: 7 })
-    if (hasSofa) facilities.push({ facility_id: 8 })
-    syncFacilities([])
-    syncFacilities(facilities)
+    syncWaterHeater(hasWaterHeater)
+    syncConditioner(hasConditioner)
+    syncBalcony(hasBalcony)
+    syncFridge(hasFridge)
+    syncBed(hasBed)
+    syncWardrobe(hasWardrobe)
     completeTab(true)
   }, [
     completeTab,
     hasBalcony,
+    hasBed,
     hasConditioner,
     hasFridge,
-    hasMicrowave,
-    hasSofa,
-    hasTV,
-    hasWashingMachine,
-    hasWifi,
-    syncFacilities,
+    hasWardrobe,
+    hasWaterHeater,
+    syncBalcony,
+    syncBed,
+    syncConditioner,
+    syncFridge,
+    syncWardrobe,
+    syncWaterHeater,
   ])
 
   return (
@@ -75,20 +73,10 @@ const Facility = ({
               colorScheme='orange'
               mb={3}
               onChange={(event) => {
-                setHasWifi(event.target.checked)
+                setHasWaterHeater(event.target.checked)
               }}
-              isChecked={hasWifi}>
-              Wifi
-            </Checkbox>
-            <Checkbox
-              size='md'
-              colorScheme='orange'
-              mb={3}
-              onChange={(event) => {
-                setHasTV(event.target.checked)
-              }}
-              isChecked={hasTV}>
-              TV
+              isChecked={hasWaterHeater}>
+              Bình nóng lạnh
             </Checkbox>
             <Checkbox
               size='md'
@@ -105,23 +93,13 @@ const Facility = ({
               colorScheme='orange'
               mb={3}
               onChange={(event) => {
-                setHasWashingMachine(event.target.checked)
+                setHasBalcony(event.target.checked)
               }}
-              isChecked={hasWashingMachine}>
-              Máy giặt
+              isChecked={hasBalcony}>
+              Ban công
             </Checkbox>
           </Flex>
           <Flex direction='column'>
-            <Checkbox
-              size='md'
-              colorScheme='orange'
-              mb={3}
-              onChange={(event) => {
-                setHasMicrowave(event.target.checked)
-              }}
-              isChecked={hasMicrowave}>
-              Lò vi sóng
-            </Checkbox>
             <Checkbox
               size='md'
               colorScheme='orange'
@@ -137,20 +115,20 @@ const Facility = ({
               colorScheme='orange'
               mb={3}
               onChange={(event) => {
-                setHasBalcony(event.target.checked)
+                setHasBed(event.target.checked)
               }}
-              isChecked={hasBalcony}>
-              Ban công
+              isChecked={hasBed}>
+              Giường
             </Checkbox>
             <Checkbox
               size='md'
               colorScheme='orange'
               mb={3}
               onChange={(event) => {
-                setHasSofa(event.target.checked)
+                setHasWardrobe(event.target.checked)
               }}
-              isChecked={hasSofa}>
-              Ghế sofa
+              isChecked={hasWardrobe}>
+              Tủ quần áo
             </Checkbox>
           </Flex>
         </Flex>
