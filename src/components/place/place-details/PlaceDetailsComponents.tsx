@@ -34,6 +34,7 @@ type Intro = {
   images: Array<string>
   owner: { name: string }
   rule: string
+  city: string
 }
 type Params = {
   room_id: string
@@ -151,7 +152,7 @@ const PlaceDetailsComponent = () => {
             <Flex width='100%' flexDirection='row'>
               <Box flex='2'>
                 <Box paddingRight='50px'>
-                  <PlaceRoute />
+                  <PlaceRoute city={details?.city} />
                   <PlaceIntro
                     name={details?.name}
                     address={details?.address}

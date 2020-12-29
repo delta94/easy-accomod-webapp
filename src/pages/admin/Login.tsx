@@ -77,10 +77,7 @@ const Login = () => {
   }, [auth.isAuth, history])
 
   return (
-    <AdminLayout>
-      <Helmet>
-        <title>Đăng nhập</title>
-      </Helmet>
+    <AdminLayout title='Login'>
       <Grid templateRows='auto 1fr auto' maxWidth='100%' minH='100vh'>
         <Box>
           <Box

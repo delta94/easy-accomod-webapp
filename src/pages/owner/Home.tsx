@@ -7,7 +7,7 @@ import RentedRooms from 'components/owner/RentedRooms'
 import RejectRooms from 'components/owner/RejectRooms'
 
 const Host = () => (
-  <OwnerLayout>
+  <OwnerLayout title='Home'>
     <Tabs
       size='md'
       variant='enclosed'

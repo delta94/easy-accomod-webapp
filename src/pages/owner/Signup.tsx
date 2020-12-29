@@ -4,10 +4,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable react/no-children-prop */
-import Header from 'components/layout/Header'
 import { useState } from 'react'
 import { EmailIcon } from '@chakra-ui/icons'
-import Copyright from 'components/layout/Copyright'
+import OwnerLayout from 'layouts/OwnerLayout'
 import {
   Grid,
   useToast,
@@ -100,9 +99,8 @@ const SignUp = () => {
   }
 
   return (
-    <>
+    <OwnerLayout title='SignUp'>
       <Grid templateRows='auto 1fr auto' maxWidth='100%' minH='100vh'>
-        <Header />
         <Box>
           <Box
             background='linear-gradient(90deg,#f65e38 0,#f68a39 51%,#f65e38)'
@@ -451,9 +449,8 @@ const SignUp = () => {
             </Grid>
           </Container>
         </Box>
-        <Copyright />
       </Grid>
-    </>
+    </OwnerLayout>
   )
 }
 

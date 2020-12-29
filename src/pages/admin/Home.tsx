@@ -8,7 +8,7 @@ import RenterList from './RenterList'
 
 function Home() {
   return (
-    <AdminLayout>
+    <AdminLayout title='Home'>
       <Tabs maxW='90%' m='40px auto'>
         <TabList>
           <Tab>Pending Owners</Tab>
