@@ -13,41 +13,52 @@ import { firestore } from 'firebase-config'
 
 const { Step } = Steps
 
-const CreatePlace = () => {
+const CreatePlace = ({ data }: { data?: any }) => {
+  console.log(data)
   const history = useHistory()
   const [isCompletePlaceInfo, setIsCompletePlaceInfo] = useState(false)
   const [isCompletePlaceImage, setIsCompletePlaceImage] = useState(false)
   const [isCompletePlacePolicy, setIsCompletePlacePolicy] = useState(false)
   const [placeInfo, setPlaceInfo] = useState({
-    name: '',
-    description: '',
-    city: '',
-    roomType: '',
-    address: '',
-    rule: '',
-    area: 15,
-    bathroomType: 'PRIVATE',
-    kitchenType: 'PRIVATE',
-    isWithOwner: true,
-    hasWaterHeater: true,
-    hasConditioner: true,
-    hasBalcony: true,
-    hasFridge: true,
-    hasBed: true,
-    hasWardrobe: true,
+    name: data ? data.name : '',
+    description: data?.description || '',
+    city: data?.city || '',
+    roomType: data?.roomType || '',
+    address: data?.address || '',
+    rule: data?.rule || '',
+    area: data?.area || 15,
+    bathroomType: data?.bathroomType || 'PRIVATE',
+    kitchenType: data?.kitchenType || 'PRIVATE',
+    isWithOwner: data?.isWithOwner || true,
+    hasWaterHeater: data?.hasWaterHeater || true,
+    hasConditioner: data?.hasConditioner || true,
+    hasBalcony: data?.hasBalcony || true,
+    hasFridge: data?.hasFridge || true,
+    hasBed: data?.hasBed || true,
+    hasWardrobe: data?.hasWardrobe || true,
   })
+  useEffect(() => {
+    if (data) {
+      debugger
+      setPlaceInfo(data)
+      setPlaceImage(data.images)
+      setPlacePolicy(data)
+    }
+  }, [data])
+
   const [placeImage, setPlaceImage] = useState<Array<string>>([])
   const [placePolicy, setPlacePolicy] = useState({
     roomPrice: 500000,
     waterPrice: 5000,
     electricityPrice: 5000,
   })
+
   const toast = useToast()
 
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    if (placeImage.length >= 3) {
+    if (placeImage?.length >= 3) {
       setIsCompletePlaceImage(true)
     }
   }, [placeImage])

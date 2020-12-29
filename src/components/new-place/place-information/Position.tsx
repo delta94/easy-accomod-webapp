@@ -25,6 +25,12 @@ const Position = ({
 }) => {
   const [city, setCity] = useState(data.city)
   const [address, setAddress] = useState(data.address)
+  useEffect(() => {
+    if (data) {
+      setCity(data.city)
+      setAddress(data.address)
+    }
+  }, [data])
 
   useEffect(() => {
     if (city === '' || address === '') {

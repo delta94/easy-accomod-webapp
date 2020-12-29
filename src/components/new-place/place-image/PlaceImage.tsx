@@ -30,6 +30,7 @@ const PlaceImage = ({
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState<Array<any>>([])
+
   useEffect(() => {
     if (fileList.length >= 3) {
       completeStep(true)
@@ -40,12 +41,15 @@ const PlaceImage = ({
 
   useEffect(() => {
     const temp: Array<any> = []
-    imageData.forEach((image: string) => {
-      temp.push({
-        url: image,
+    if (imageData) {
+      debugger
+      imageData?.forEach((image: string) => {
+        temp.push({
+          url: image,
+        })
       })
-    })
-    setFileList(temp)
+      setFileList(temp)
+    }
   }, [])
 
   const getBase64 = (file: any) => {

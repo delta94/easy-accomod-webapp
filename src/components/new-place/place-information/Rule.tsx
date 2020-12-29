@@ -19,6 +19,11 @@ const Rule = ({
   data: any
 }) => {
   const [rule, setRule] = useState(data.rule)
+  useEffect(() => {
+    if (data) {
+      setRule(data.rule)
+    }
+  }, [data])
 
   useEffect(() => {
     syncRule(rule)

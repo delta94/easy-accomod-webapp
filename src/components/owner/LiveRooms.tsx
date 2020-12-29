@@ -17,8 +17,8 @@ function LiveRooms() {
     },
     {
       title: 'Address',
-      dataIndex: 'detailAddress',
-      key: 'detailAddress',
+      dataIndex: 'address',
+      key: 'address',
       render: (text: string) => <a>{text}</a>,
     },
     {

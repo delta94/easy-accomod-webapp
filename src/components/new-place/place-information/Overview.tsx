@@ -21,6 +21,11 @@ const Overview = ({
   data: any
 }) => {
   const [description, setDescription] = useState(data.description)
+  useEffect(() => {
+    if (data) {
+      setDescription(data.description)
+    }
+  }, [data])
 
   useEffect(() => {
     if (description !== '') {

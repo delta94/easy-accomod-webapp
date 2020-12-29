@@ -23,6 +23,13 @@ const PricePolicy = ({ completeStep, syncData, data }: { completeStep: Function;
   const [electricityPrice, setElectricityPrice] = useState(data.electricityPrice)
 
   useEffect(() => {
+    if (data) {
+      setRoomPrice(data.roomPrice)
+      setWaterPrice(data.waterPrice)
+      setElectricityPrice(data.electricityPrice)
+    }
+  }, [data])
+  useEffect(() => {
     completeStep(true)
     syncData({
       roomPrice,

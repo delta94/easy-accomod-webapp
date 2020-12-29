@@ -16,7 +16,7 @@ import Actions from './Actions'
 type Intro = {
   _id: string
   name: string
-  detailAddress: string
+  address: string
   area: number
   roomType: string
   bathroomType: string
@@ -151,7 +151,7 @@ const PlaceDetailsComponent = () => {
                   <PlaceRoute />
                   <PlaceIntro
                     name={details?.name}
-                    address={details?.detailAddress}
+                    address={details?.address}
                     roomData={details?.area}
                     bathRoomType={details?.bathroomType}
                     kitchenType={details?.kitchenType}

@@ -32,9 +32,16 @@ const BaseInformation = ({
   const [placeName, setPlaceName] = useState(data.name)
   const [roomType, setRoomType] = useState(data.roomType)
   const [roomQuantity, setRoomQuantity] = useState(data.roomQuantity)
+  useEffect(() => {
+    if (data) {
+      setPlaceName(data.name)
+      setRoomType(data.roomType)
+      debugger
+    }
+  }, [data])
 
   useEffect(() => {
-    if (placeName === '' || roomType === '' || placeName.length < 6) {
+    if (placeName === '' || roomType === '' || placeName?.length < 6) {
       completeTab(false)
     } else {
       syncPlaceName(placeName)
