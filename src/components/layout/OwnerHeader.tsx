@@ -84,10 +84,6 @@ export default function Header() {
     history.push('/')
   }
 
-  const redirectToOwner = () => {
-    window.location.hostname = 'owner.localhost'
-  }
-
   return (
     <div>
       <Box
@@ -132,7 +128,7 @@ export default function Header() {
       <Box
         height='85px'
         w='100%'
-        mb= {5}
+        mb={5}
         pb={3}
         display={{ sm: 'none', md: 'none', lg: 'block' }}
         borderBottom='1px solid rgb(226 232 240)'>
@@ -150,16 +146,16 @@ export default function Header() {
           <Spacer />
           {name !== '' ? (
             <>
-              <Button variant='ghost' onClick={redirectToOwner}>
+              <Button variant='ghost'>
                 <Link to='/create-room'>Create new room</Link>
               </Button>
               <Menu>
                 <MenuButton
-                px={8}
-                py={2}
-                transition="all 0.2s"
-                borderRadius="md">
-                  <EmailIcon/>
+                  px={8}
+                  py={2}
+                  transition="all 0.2s"
+                  borderRadius="md">
+                  <EmailIcon />
                 </MenuButton>
                 <MenuList w='350px'>
                   <Notifi />

@@ -7,10 +7,13 @@ import React, { useEffect, useState } from 'react'
 import 'antd/dist/antd.css'
 import OwnerLayout from 'layouts/OwnerLayout'
 import { Steps } from 'antd'
+import axios from 'utils/axios'
+import { useHistory } from 'react-router-dom'
 
 const { Step } = Steps
 
 const CreatePlace = () => {
+  const history = useHistory()
   const [isCompletePlaceInfo, setIsCompletePlaceInfo] = useState(false)
   const [isCompletePlaceImage, setIsCompletePlaceImage] = useState(false)
   const [isCompletePlacePolicy, setIsCompletePlacePolicy] = useState(false)
@@ -32,34 +35,21 @@ const CreatePlace = () => {
     hasBed: true,
     hasWardrobe: true,
   })
-  const [placeImage, setPlaceImage] = useState({
-    image: '',
-    overviews_attributes: [],
-  })
+  const [placeImage, setPlaceImage] = useState<Array<string>>([])
   const [placePolicy, setPlacePolicy] = useState({
-    policy_attributes: {
-      currency: 'vnd',
-      cancel_policy: 'normal',
-      max_num_of_people: 1,
-    },
-    schedule_price_attributes: {
-      normal_day_price: 200000,
-      weekend_price: 200000,
-      cleaning_price: 50000,
-    },
+    roomPrice: 500000,
+    waterPrice: 5000,
+    electricityPrice: 5000,
   })
   const toast = useToast()
 
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    if (
-      placeImage.image !== '' &&
-      placeImage.overviews_attributes.length >= 8
-    ) {
+    if (placeImage.length >= 3) {
       setIsCompletePlaceImage(true)
     }
-  }, [placeImage.image, placeImage.overviews_attributes.length])
+  }, [placeImage])
 
   const next = async () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -67,6 +57,40 @@ const CreatePlace = () => {
       setCurrent(1)
     } else if (current === 1 && isCompletePlaceInfo && isCompletePlaceImage) {
       setCurrent(2)
+    } else if (
+      current === 2 &&
+      isCompletePlaceInfo &&
+      isCompletePlaceImage &&
+      isCompletePlacePolicy
+    ) {
+      try {
+        const res = await axios({
+          url: `/rooms/create`,
+          method: 'post',
+          data: { ...placeInfo, images: placeImage, ...placePolicy },
+        })
+        if (res) {
+          toast({
+            title: 'Thành công',
+            description: 'Bạn đã đăng bài thành công',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: 'top',
+          })
+          history.push(`/rooms/${res.data.data._id}/preview`)
+        }
+      } catch (error) {
+        console.log(error)
+        toast({
+          title: 'Sai định dạng dữ liệu',
+          description: error?.response?.message,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+        })
+      }
     } else {
       toast({
         title: 'Bạn cần điền đầy đủ thông tin',

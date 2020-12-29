@@ -8,18 +8,12 @@ import {
   Box,
   FormControl,
   FormLabel,
-  IconButton,
   Text,
   Flex,
   Spacer,
-  Image,
-  Button,
-  Spinner,
 } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons'
-import { Upload, Modal, message } from 'antd'
+import { Upload, Modal } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import axios from 'axios'
 import { storage } from 'firebase-config'
 import InfoBox from '../InfoBox'
 
@@ -36,6 +30,23 @@ const PlaceImage = ({
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState<Array<any>>([])
+  useEffect(() => {
+    if (fileList.length >= 3) {
+      completeStep(true)
+    } else {
+      completeStep(false)
+    }
+  }, [completeStep, fileList.length])
+
+  useEffect(() => {
+    const temp: Array<any> = []
+    imageData.forEach((image: string) => {
+      temp.push({
+        url: image,
+      })
+    })
+    setFileList(temp)
+  }, [])
 
   const getBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
@@ -61,6 +72,12 @@ const PlaceImage = ({
 
   const handleChange = ({ fileList }: { fileList: Array<any> }) => {
     setFileList(fileList)
+    const images: Array<string> = []
+    fileList.forEach((file: any) => {
+      images.push(file.response)
+    })
+    syncData(images)
+    console.log(images)
   }
 
   const uploadButton = (
@@ -87,7 +104,6 @@ const PlaceImage = ({
           .child(name)
           .getDownloadURL()
           .then((url) => {
-            console.log(url)
             onSuccess(url)
           })
           .catch((err) => {
