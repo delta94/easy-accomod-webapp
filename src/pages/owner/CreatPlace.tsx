@@ -9,6 +9,7 @@ import OwnerLayout from 'layouts/OwnerLayout'
 import { Steps } from 'antd'
 import axios from 'utils/axios'
 import { useHistory } from 'react-router-dom'
+import { firestore } from 'firebase-config'
 
 const { Step } = Steps
 
@@ -72,13 +73,23 @@ const CreatePlace = () => {
         if (res) {
           toast({
             title: 'Thành công',
-            description: 'Bạn đã đăng bài thành công',
+            description:
+              'Bạn đã đăng bài thành công, bài viết của bạn đang được chờ phê duyệt',
             status: 'success',
             duration: 3000,
             isClosable: true,
             position: 'top',
           })
           history.push(`/rooms/${res.data.data._id}/preview`)
+          console.log(res.data.data.owner)
+          await firestore.collection('notifications').add({
+            sender: res.data.data.owner,
+            senderType: 'owner',
+            receiver: '',
+            receiverType: 'admin',
+            roomId: res.data.data._id,
+            type: 'CREATE_ROOM',
+          })
         }
       } catch (error) {
         console.log(error)

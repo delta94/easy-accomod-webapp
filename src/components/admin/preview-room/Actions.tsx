@@ -1,35 +1,68 @@
 import { Box, Button, Flex, useToast } from '@chakra-ui/react'
 import { useState, useEffect } from 'react'
 import axios from 'utils/axios'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
+import { firestore } from 'firebase-config'
 
 type Params = {
   room_id: string
 }
-const Actions = () => {
+const Actions = ({
+  roomId,
+  ownerId,
+}: {
+  roomId: string | undefined
+  ownerId: string | undefined
+}) => {
   const params: Params = useParams()
-
-  const handleAccept = (id: any) => {
-    axios
-      .put(`rooms/${params?.room_id}/approve`)
-      .then((res) => {
-        console.log(res)
-        debugger
+  const history = useHistory()
+  const handleAccept = async () => {
+    try {
+      axios
+        .put(`rooms/${params?.room_id}/approve`)
+        .then((res) => {
+          console.log(res)
+          debugger
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      await firestore.collection('notifications').add({
+        sender: '',
+        senderType: 'admin',
+        receiver: ownerId,
+        receiverType: 'owner',
+        roomId,
+        type: 'APPROVE_ROOM',
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      history.push('/')
+    } catch (error) {
+      console.log(error)
+    }
   }
-  const handleReject = (id: any) => {
-    axios
-      .put(`rooms/${params?.room_id}/reject`)
-      .then((res) => {
-        console.log(res)
-        debugger
+  const handleReject = async () => {
+    try {
+      axios
+        .put(`rooms/${params?.room_id}/reject`)
+        .then((res) => {
+          console.log(res)
+          debugger
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      await firestore.collection('notifications').add({
+        sender: '',
+        senderType: 'admin',
+        receiver: ownerId,
+        receiverType: 'owner',
+        roomId,
+        type: 'REJECT_ROOM',
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      history.push('/')
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <Box padding='1.5rem 0'>

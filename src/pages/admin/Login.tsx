@@ -2,7 +2,6 @@
 /* eslint-disable react/no-children-prop */
 import React, { useState, useEffect } from 'react'
 import { EmailIcon } from '@chakra-ui/icons'
-import Copyright from 'components/layout/Copyright'
 import { Helmet } from 'react-helmet'
 import {
   Grid,
@@ -17,7 +16,6 @@ import {
   Link,
   useToast,
 } from '@chakra-ui/react'
-import Header from 'components/layout/Header'
 import { Link as ReactLink, useHistory } from 'react-router-dom'
 import useRedux from 'hooks/useRedux'
 import actions from 'store/actions'
@@ -27,6 +25,7 @@ import TopSales from 'assets/signin/top-sales.png'
 import Wallet from 'assets/signin/wallet.png'
 import BackPack from 'assets/signin/backpack.png'
 import { isValidEmail } from 'utils/validation'
+import AdminLayout from 'layouts/AdminLayout'
 
 const Login = () => {
   const toast = useToast()
@@ -78,12 +77,11 @@ const Login = () => {
   }, [auth.isAuth, history])
 
   return (
-    <>
+    <AdminLayout>
       <Helmet>
         <title>Đăng nhập</title>
       </Helmet>
       <Grid templateRows='auto 1fr auto' maxWidth='100%' minH='100vh'>
-        <Header />
         <Box>
           <Box
             background='linear-gradient(90deg,#f65e38 0,#f68a39 51%,#f65e38)'
@@ -241,9 +239,8 @@ const Login = () => {
             </Grid>
           </Container>
         </Box>
-        <Copyright />
       </Grid>
-    </>
+    </AdminLayout>
   )
 }
 
