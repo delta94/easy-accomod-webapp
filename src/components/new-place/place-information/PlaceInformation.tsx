@@ -82,24 +82,24 @@ const PlaceInformation = ({
         hasBed,
         hasWardrobe
       })
-      console.log({
-        name,
-        description,
-        city,
-        roomType,
-        address,
-        rule,
-        area,
-        bathroomType,
-        kitchenType,
-        isWithOwner,
-        hasWaterHeater,
-        hasConditioner,
-        hasBalcony,
-        hasFridge,
-        hasBed,
-        hasWardrobe
-      })
+      // console.log({
+      //   name,
+      //   description,
+      //   city,
+      //   roomType,
+      //   address,
+      //   rule,
+      //   area,
+      //   bathroomType,
+      //   kitchenType,
+      //   isWithOwner,
+      //   hasWaterHeater,
+      //   hasConditioner,
+      //   hasBalcony,
+      //   hasFridge,
+      //   hasBed,
+      //   hasWardrobe
+      // })
     } else {
       completeStep(false)
     }

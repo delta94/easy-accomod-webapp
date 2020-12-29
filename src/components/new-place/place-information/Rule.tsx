@@ -21,9 +21,7 @@ const Rule = ({
   const [rule, setRule] = useState(data.rule)
 
   useEffect(() => {
-    syncRule({
-      rule,
-    })
+    syncRule(rule)
     completeTab(true)
   }, [completeTab, rule, syncRule])
 
