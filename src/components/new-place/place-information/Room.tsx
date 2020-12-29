@@ -7,46 +7,57 @@ import {
   Text,
   Flex,
   Spacer,
+  Select,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  RadioGroup,
+  Stack,
+  Radio,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 const Room = ({
   completeTab,
-  syncRoom,
+  syncArea,
+  syncBathroomType,
+  syncKitchen,
+  syncIsWithOwner,
   data,
 }: {
   completeTab: Function
-  syncRoom: Function
+  syncArea: Function
+  syncBathroomType: Function
+  syncKitchen: Function
+  syncIsWithOwner: Function
   data: any
 }) => {
-  const [square, setSquare] = useState(data.square)
-  const [numOfBedRoom, setNumOfBedRoom] = useState(data.num_of_bedroom)
-  const [numOfBed, setNumOfBed] = useState(data.num_of_bed)
-  const [numOfBathRoom, setNumOfBathRoom] = useState(data.num_of_bathroom)
-  const [numOfKitchen, setNumOfKitchen] = useState(data.num_of_kitchen)
-
+  const [area, setArea] = useState(data.area)
+  const [bathroomType, setBathroomType] = useState(data.bathroomType)
+  const [kitchenType, setKitchenType] = useState(data.kitchenType)
+  const [isWithOwner, setIsWithOwner] = useState(data.isWithOwner)
   useEffect(() => {
-    syncRoom({
-      square,
-      num_of_bed: numOfBed,
-      num_of_bathroom: numOfBathRoom,
-      num_of_bedroom: numOfBedRoom,
-      num_of_kitchen: numOfKitchen,
-    })
-    completeTab(true)
+    if (bathroomType === '' || kitchenType === '' || area === 0) {
+      completeTab(false)
+    } else {
+      syncArea(area)
+      syncBathroomType(bathroomType)
+      syncKitchen(kitchenType)
+      syncIsWithOwner(isWithOwner)
+      completeTab(true)
+    }
   }, [
+    area,
+    bathroomType,
     completeTab,
-    numOfBathRoom,
-    numOfBed,
-    numOfBedRoom,
-    numOfKitchen,
-    square,
-    syncRoom,
+    isWithOwner,
+    kitchenType,
+    syncArea,
+    syncBathroomType,
+    syncIsWithOwner,
+    syncKitchen,
   ])
 
   return (
@@ -54,7 +65,7 @@ const Room = ({
       <Box border='1px' borderColor='gray.200' borderRadius='md' p={5} w='60%'>
         <Box borderBottomColor='gray.200' borderBottomWidth={1} mb={5} pb={3}>
           <Text fontSize='xl' fontWeight='bold'>
-            Tên chỗ nghỉ của bạn
+            Phòng của bạn
           </Text>
         </Box>
         <FormControl id='square' isRequired mb={5}>
@@ -64,8 +75,8 @@ const Room = ({
             defaultValue={15}
             min={10}
             max={500}
-            onChange={(value) => setSquare(parseInt(value))}
-            value={square}>
+            onChange={(value) => setArea(parseInt(value))}
+            value={area}>
             <NumberInputField />
             <NumberInputStepper>
               <NumberIncrementStepper />
@@ -73,74 +84,45 @@ const Room = ({
             </NumberInputStepper>
           </NumberInput>
         </FormControl>
-        <Flex>
-          <FormControl id='num-of-bedroom' isRequired mb={5} mr={5}>
-            <FormLabel>Số lượng phòng ngủ: </FormLabel>
-            <NumberInput
-              step={1}
-              defaultValue={1}
-              min={1}
-              max={100}
-              onChange={(value) => setNumOfBedRoom(parseInt(value))}
-              value={numOfBedRoom}>
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-          <FormControl id='num-of-bed' isRequired mb={5}>
-            <FormLabel>Số lượng giường ngủ: </FormLabel>
-            <NumberInput
-              step={1}
-              defaultValue={1}
-              min={1}
-              max={100}
-              onChange={(value) => setNumOfBed(parseInt(value))}
-              value={numOfBed}>
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-        </Flex>
-        <Flex>
-          <FormControl id='num-of-bathroom' isRequired mb={5} mr={5}>
-            <FormLabel>Số lượng phòng tắm: </FormLabel>
-            <NumberInput
-              step={1}
-              defaultValue={1}
-              min={1}
-              max={100}
-              onChange={(value) => setNumOfBathRoom(parseInt(value))}
-              value={numOfBathRoom}>
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-          <FormControl id='num-of-kitchen' isRequired mb={5}>
-            <FormLabel>Số lượng phòng bếp</FormLabel>
-            <NumberInput
-              step={1}
-              defaultValue={1}
-              min={1}
-              max={100}
-              onChange={(value) => setNumOfKitchen(parseInt(value))}
-              value={numOfKitchen}>
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </FormControl>
-        </Flex>
+        <FormControl id='num-of-bedroom' isRequired mb={5} mr={5}>
+          <FormLabel>Phòng tắm: </FormLabel>
+          <Select
+            placeholder='Chọn loại phòng tắm'
+            onChange={(event) => setBathroomType(event.target.value)}
+            value={bathroomType}>
+            <option value='PRIVATE'>Riêng</option>
+            <option value='SHARED'>Chung</option>
+          </Select>
+        </FormControl>
+        <FormControl id='num-of-bed' isRequired mb={5}>
+          <FormLabel>Nhà bếp: </FormLabel>
+          <Select
+            placeholder='Chọn loại nhà bếp'
+            onChange={(event) => setKitchenType(event.target.value)}
+            value={kitchenType}>
+            <option value='PRIVATE'>Riêng</option>
+            <option value='SHARED'>Chung</option>
+            <option value='NONE'>Không có</option>
+          </Select>
+        </FormControl>
+        <FormControl id='smoking' isRequired mb={5}>
+          <FormLabel>Chung chủ</FormLabel>
+          <RadioGroup
+            defaultValue='allowed'
+            onChange={(value: string) => {
+              setIsWithOwner(value === 'allowed')
+            }}
+            value={isWithOwner ? 'allowed' : 'unallowed'}>
+            <Stack direction='row'>
+              <Radio value='allowed' colorScheme='orange' w='50%'>
+                Chung chủ
+              </Radio>
+              <Radio value='unallowed' colorScheme='orange'>
+                Không chung chủ
+              </Radio>
+            </Stack>
+          </RadioGroup>
+        </FormControl>
       </Box>
       <Spacer />
     </Flex>

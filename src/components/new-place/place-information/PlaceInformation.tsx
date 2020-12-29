@@ -9,8 +9,6 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-  Tag,
-  Box,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import BaseInformation from './BaseInformation'
@@ -19,26 +17,6 @@ import Room from './Room'
 import Facility from './Facility'
 import Rule from './Rule'
 import Overview from './Overview'
-
-type RoomType = {
-  square: number
-  num_of_bedroom: number
-  num_of_bed: number
-  num_of_bath_room: number
-  num_of_kitchen: number
-}
-type FacilitiesType = [
-  {
-    facility_id: number
-  }
-]
-type RuleType = {
-  special_rules: string
-  smoking: string
-  pet: string
-  cooking: string
-  party: string
-}
 
 const PlaceInformation = ({
   completeStep,
@@ -60,15 +38,21 @@ const PlaceInformation = ({
   const [isCompleteOverview, setIsCompleteOverview] = useState(false)
 
   const [name, setPlaceName] = useState(data.name)
-  const [details, setDetails] = useState(data.details)
-  const [placeType, setPlaceType] = useState(data.place_type)
+  const [description, setDescription] = useState(data.description)
+  const [roomType, setRoomType] = useState(data.roomType)
   const [city, setCity] = useState(data.city)
   const [address, setAddress] = useState(data.address)
-  const [room, setRoom] = useState(data.room_attributes as RoomType)
-  const [facilities, setFacilities] = useState(
-    data.place_facilities_attributes as FacilitiesType
-  )
-  const [rule, setRule] = useState(data.rule_attributes as RuleType)
+  const [rule, setRule] = useState(data.rule)
+  const [area, setArea] = useState(data.area)
+  const [bathroomType, setBathroomType] = useState(data.bathroomType)
+  const [kitchenType, setKitchenType] = useState(data.kitchenType)
+  const [isWithOwner, setIsWithOwner] = useState(data.isWithOwner)
+  const [hasWaterHeater, setHasWaterHeater] = useState(data.hasWaterHeater)
+  const [hasConditioner, setHasConditioner] = useState(data.hasConditioner)
+  const [hasBalcony, setHasBalcony] = useState(data.hasBalcony)
+  const [hasFridge, setHasFridge] = useState(data.hasFridge)
+  const [hasBed, setHasBed] = useState(data.hasBed)
+  const [hasWardrobe, setHasWardrobe] = useState(data.hasWardrobe)
 
   useEffect(() => {
     if (
@@ -82,23 +66,39 @@ const PlaceInformation = ({
       completeStep(true)
       syncData({
         name,
-        details,
+        description,
         city,
-        place_type: placeType,
+        roomType,
         address,
-        rule_attributes: rule,
-        room_attributes: room,
-        place_facilities_attributes: facilities,
+        rule,
+        area,
+        bathroomType,
+        kitchenType,
+        isWithOwner,
+        hasWaterHeater,
+        hasConditioner,
+        hasBalcony,
+        hasFridge,
+        hasBed,
+        hasWardrobe
       })
       console.log({
         name,
-        details,
+        description,
         city,
-        place_type: placeType,
+        roomType,
         address,
-        rule_attributes: rule,
-        room_attributes: room,
-        place_facilities_attributes: facilities,
+        rule,
+        area,
+        bathroomType,
+        kitchenType,
+        isWithOwner,
+        hasWaterHeater,
+        hasConditioner,
+        hasBalcony,
+        hasFridge,
+        hasBed,
+        hasWardrobe
       })
     } else {
       completeStep(false)
@@ -107,8 +107,13 @@ const PlaceInformation = ({
     address,
     city,
     completeStep,
-    details,
-    facilities,
+    description,
+    hasWaterHeater,
+    hasConditioner,
+    hasBalcony,
+    hasFridge,
+    hasBed,
+    hasWardrobe,
     isCompleteBaseInfo,
     isCompleteFacility,
     isCompleteOverview,
@@ -116,8 +121,11 @@ const PlaceInformation = ({
     isCompleteRoom,
     isCompleteRule,
     name,
-    placeType,
-    room,
+    roomType,
+    area,
+    bathroomType,
+    kitchenType,
+    isWithOwner,
     rule,
     syncData,
   ])
@@ -198,7 +206,7 @@ const PlaceInformation = ({
           <BaseInformation
             completeTab={setIsCompleteBaseInfo}
             syncPlaceName={setPlaceName}
-            syncPlaceType={setPlaceType}
+            syncPlaceType={setRoomType}
             data={data}
           />
         </TabPanel>
@@ -213,28 +221,36 @@ const PlaceInformation = ({
         <TabPanel>
           <Room
             completeTab={setIsCompleteRoom}
-            syncRoom={setRoom}
-            data={data.room_attributes}
+            syncArea={setArea}
+            syncBathroomType={setBathroomType}
+            syncKitchen={setKitchenType}
+            syncIsWithOwner={setIsWithOwner}
+            data={data}
           />
         </TabPanel>
         <TabPanel>
           <Facility
             completeTab={setIsCompleteFacility}
-            syncFacilities={setFacilities}
-            data={data.place_facilities_attributes}
+            syncWaterHeater={setHasWaterHeater}
+            syncConditioner={setHasConditioner}
+            syncBalcony={setHasBalcony}
+            syncFridge={setHasFridge}
+            syncBed={setHasBed}
+            syncWardrobe={setHasWardrobe}
+            data={data}
           />
         </TabPanel>
         <TabPanel>
           <Rule
             completeTab={setIsCompleteRule}
             syncRule={setRule}
-            data={data.rule_attributes}
+            data={data}
           />
         </TabPanel>
         <TabPanel>
           <Overview
             completeTab={setIsCompleteOverview}
-            syncOverview={setDetails}
+            syncOverview={setDescription}
             data={data}
           />
         </TabPanel>

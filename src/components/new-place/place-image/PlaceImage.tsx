@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -16,8 +17,10 @@ import {
   Spinner,
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import { Upload, message } from 'antd'
+import { Upload, Modal, message } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import axios from 'axios'
+import { storage } from 'firebase-config'
 import InfoBox from '../InfoBox'
 
 const PlaceImage = ({
@@ -29,125 +32,69 @@ const PlaceImage = ({
   syncData: Function
   imageData: any
 }) => {
-  const initData = () => {
-    const dataTemp: Array<string> = []
-    imageData.overviews_attributes.forEach((item: any) => {
-      dataTemp.push(item.image)
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [previewTitle, setPreviewTitle] = useState('')
+  const [fileList, setFileList] = useState<Array<any>>([])
+
+  const getBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(error)
     })
-    return dataTemp
   }
 
-  const [uploadedOverviewImages, setUploadedOverviewImages] = useState<
-    Array<string>
-  >(initData())
-  const [uploadedCoverImage, setUploadedCoverImage] = useState<string>(
-    imageData.image
+  const handleCancel = () => setPreviewVisible(false)
+
+  const handlePreview = async (file: any) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setPreviewImage(file.url || file.preview)
+    setPreviewVisible(true)
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
+    )
+  }
+
+  const handleChange = ({ fileList }: { fileList: Array<any> }) => {
+    setFileList(fileList)
+  }
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
   )
-  const [overviewList, setOverviewList] = useState<Array<any>>([])
-  const [coverList, setCoverList] = useState<Array<any>>([])
-  const [isOverviewLoading, setIsOverviewLoading] = useState<boolean>(false)
-  const [isCoverLoading, setIsCoverLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (uploadedCoverImage !== '' && uploadedOverviewImages.length >= 8) {
-      completeStep(true)
-    } else {
-      completeStep(false)
-    }
-  }, [completeStep, syncData, uploadedCoverImage, uploadedOverviewImages])
-
-  const updateData = () => {
-    const overviewImages: Array<string> = []
-    uploadedOverviewImages.forEach((image: string) => {
-      overviewImages.push(image)
-    })
-    syncData({
-      image: uploadedCoverImage,
-      overviews_attributes: overviewImages,
-    })
-  }
-  const handleOverviewChange = (info: any) => {
-    const fileListTemp = [...info.fileList]
-    setOverviewList(fileListTemp)
-  }
-
-  const handleCoverChange = (info: any) => {
-    const fileListTemp = [...info.fileList]
-    setCoverList(fileListTemp)
-  }
-
-  const beforeUpload = (file: any) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      message.error('wrong_format')
-    }
-    const isLt3M = file.size / 1024 / 1024 < 3
-    if (!isLt3M) {
-      message.error('wrong_size')
-    }
-    return false
-  }
-
-  const uploadFile = async (signedRequest: any, file: any) => {
-    try {
-      await axios.put(signedRequest, file.originFileObj, {
-        headers: {
-          'Content-Type': file.type,
-        },
+  const customRequest = ({
+    file,
+    onSuccess,
+  }: {
+    file: any
+    onSuccess: Function
+  }) => {
+    const name = Date.now().toString()
+    storage
+      .ref('images')
+      .child(name)
+      .put(file)
+      .then(() => {
+        storage
+          .ref('images')
+          .child(name)
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url)
+            onSuccess(url)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       })
-    } catch (error) {
-      message.error('error')
-    }
   }
-
-  const pushOverviewImage = () => {
-    setIsOverviewLoading(true)
-    overviewList.forEach(async (file) => {
-      const { data } = await axios.get(
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3000/api/sign-s3'
-          : '/api/sign-s3',
-        {
-          params: {
-            'file-name': file.name,
-            'file-type': file.type,
-          },
-        }
-      )
-      const { signedRequest, url: avatarURL } = data
-      await uploadFile(signedRequest, file)
-      const urlImages = uploadedOverviewImages
-      urlImages.push(avatarURL)
-      setUploadedOverviewImages(urlImages)
-      setOverviewList([])
-      updateData()
-    })
-    setIsOverviewLoading(false)
-  }
-
-  const pushCoverImage = () => {
-    setIsCoverLoading(true)
-    coverList.forEach(async (file) => {
-      const { data } = await axios.get(
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3000/api/sign-s3'
-          : '/api/sign-s3',
-        {
-          params: {
-            'file-name': file.name,
-            'file-type': file.type,
-          },
-        }
-      )
-      const { signedRequest, url: avatarURL } = data
-      await uploadFile(signedRequest, file)
-      setUploadedCoverImage(avatarURL)
-      setCoverList([])
-      updateData()
-    })
-    setIsCoverLoading(false)
-  }
-
   return (
     <Box mt={10} pb={10}>
       <Flex>
@@ -166,67 +113,24 @@ const PlaceImage = ({
               chỗ nghỉ của bạn.
             </Text>
           </Box>
-          <FormControl id='cover_image' isRequired mb={5}>
-            <FormLabel>Ảnh bìa:</FormLabel>
-            <Flex>
-              <Image src={uploadedCoverImage} width='23%' mr={5} />
-            </Flex>
-            <Upload
-              name='avatar'
-              // action={uploadURL}
-              accept='.png, .jpg, .jpeg'
-              multiple={false}
-              fileList={coverList}
-              onChange={handleCoverChange}
-              beforeUpload={beforeUpload}
-              withCredentials>
-              <IconButton
-                colorScheme='orange'
-                size='sm'
-                mt={3}
-                aria-label='Search database'
-                icon={<AddIcon />}
-              />
-            </Upload>
-            <Button
-              colorScheme='orange'
-              size='sm'
-              mt={3}
-              onClick={pushCoverImage}>
-              {isCoverLoading ? <Spinner color='orange.500' /> : 'Save'}
-            </Button>
-          </FormControl>
           <FormControl id='overview_image' isRequired mb={5}>
             <FormLabel>Ảnh chỗ nghỉ (Ít nhất 8 ảnh):</FormLabel>
-            <Flex flexWrap='wrap'>
-              {uploadedOverviewImages.map((item, index) => (
-                <Image src={item} width='21.5%' key={index} mr={5} mb={5} />
-              ))}
-            </Flex>
             <Upload
-              name='avatar'
-              // action={uploadURL}
-              accept='.png, .jpg, .jpeg'
-              multiple
-              fileList={overviewList}
-              onChange={handleOverviewChange}
-              beforeUpload={beforeUpload}
-              withCredentials>
-              <IconButton
-                colorScheme='orange'
-                size='sm'
-                mt={3}
-                aria-label='Search database'
-                icon={<AddIcon />}
-              />
+              customRequest={customRequest}
+              action='localhost:3000'
+              listType='picture-card'
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}>
+              {fileList.length >= 8 ? null : uploadButton}
             </Upload>
-            <Button
-              colorScheme='orange'
-              size='sm'
-              mt={3}
-              onClick={pushOverviewImage}>
-              {isOverviewLoading ? <Spinner color='orange.500' /> : 'Save'}
-            </Button>
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}>
+              <img alt='example' style={{ width: '100%' }} src={previewImage} />
+            </Modal>
           </FormControl>
         </Box>
         <Spacer />

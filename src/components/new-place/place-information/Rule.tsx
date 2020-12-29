@@ -6,9 +6,6 @@ import {
   Textarea,
   Text,
   Flex,
-  RadioGroup,
-  Stack,
-  Radio,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
@@ -21,22 +18,14 @@ const Rule = ({
   syncRule: Function
   data: any
 }) => {
-  const [smoking, setSmoking] = useState(data.smoking)
-  const [pet, setPet] = useState(data.pet)
-  const [party, setParty] = useState(data.party)
-  const [cooking, setCooking] = useState(data.cooking)
-  const [specialRule, setSpecialRule] = useState(data.special_rules)
+  const [rule, setRule] = useState(data.rule)
 
   useEffect(() => {
     syncRule({
-      smoking,
-      pet,
-      party,
-      cooking,
-      special_rules: specialRule,
+      rule,
     })
     completeTab(true)
-  }, [completeTab, cooking, party, pet, smoking, specialRule, syncRule])
+  }, [completeTab, rule, syncRule])
 
   return (
     <Flex>
@@ -46,86 +35,14 @@ const Rule = ({
             Thiết lập nội quy chỗ nghỉ
           </Text>
         </Box>
-        <FormControl id='smoking' isRequired mb={5}>
-          <FormLabel>Hút thuốc</FormLabel>
-          <RadioGroup
-            defaultValue='unallowed'
-            onChange={(value: string) => {
-              setSmoking(value)
-            }}
-            value={smoking}>
-            <Stack direction='row'>
-              <Radio value='allowed' colorScheme='orange' w='50%'>
-                Cho phép
-              </Radio>
-              <Radio value='unallowed' colorScheme='orange'>
-                Không cho phép
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-        <FormControl id='pet' isRequired mb={5}>
-          <FormLabel>Nuôi động vật</FormLabel>
-          <RadioGroup
-            defaultValue='allowed'
-            onChange={(value: string) => {
-              setPet(value)
-            }}
-            value={pet}>
-            <Stack direction='row'>
-              <Radio value='allowed' colorScheme='orange' w='50%'>
-                Cho phép
-              </Radio>
-              <Radio value='unallowed' colorScheme='orange'>
-                Không cho phép
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-        <FormControl id='party' isRequired mb={5}>
-          <FormLabel>Tổ chức tiệc</FormLabel>
-          <RadioGroup
-            defaultValue='allowed'
-            onChange={(value: string) => {
-              setParty(value)
-            }}
-            value={party}>
-            <Stack direction='row'>
-              <Radio value='allowed' colorScheme='orange' w='50%'>
-                Cho phép
-              </Radio>
-              <Radio value='unallowed' colorScheme='orange'>
-                Không cho phép
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-        <FormControl id='cooking' isRequired mb={5}>
-          <FormLabel>Nấu ăn</FormLabel>
-          <RadioGroup
-            defaultValue='allowed'
-            onChange={(value: string) => {
-              setCooking(value)
-            }}
-            value={cooking}>
-            <Stack direction='row'>
-              <Radio value='allowed' colorScheme='orange' w='50%'>
-                Cho phép
-              </Radio>
-              <Radio value='unallowed' colorScheme='orange'>
-                Không cho phép
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
         <FormControl id='special-rule' mb={5}>
-          <FormLabel>Nội quy đặc biệt</FormLabel>
+          <FormLabel>Nội quy</FormLabel>
           <Textarea
             placeholder='Nội quy đặc biệt'
             onChange={(event) => {
-              setSpecialRule(event.target.value)
+              setRule(event.target.value)
             }}
-            value={specialRule}
+            value={rule}
           />
         </FormControl>
       </Box>

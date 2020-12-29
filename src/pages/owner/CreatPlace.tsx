@@ -16,25 +16,21 @@ const CreatePlace = () => {
   const [isCompletePlacePolicy, setIsCompletePlacePolicy] = useState(false)
   const [placeInfo, setPlaceInfo] = useState({
     name: '',
-    details: '',
+    description: '',
     city: '',
-    place_type: '',
+    roomType: '',
     address: '',
-    rule_attributes: {
-      smoking: 'unallowed',
-      pet: 'allowed',
-      party: 'allowed',
-      cooking: 'allowed',
-      special_rules: '',
-    },
-    room_attributes: {
-      square: 15,
-      num_of_bedroom: 1,
-      num_of_bed: 1,
-      num_of_bathroom: 1,
-      num_of_kitchen: 1,
-    },
-    place_facilities_attributes: [{}],
+    rule: '',
+    area: 15,
+    bathroomType: 'PRIVATE',
+    kitchenType: 'PRIVATE',
+    isWithOwner: true,
+    hasWaterHeater: true,
+    hasConditioner: true,
+    hasBalcony: true,
+    hasFridge: true,
+    hasBed: true,
+    hasWardrobe: true,
   })
   const [placeImage, setPlaceImage] = useState({
     image: '',

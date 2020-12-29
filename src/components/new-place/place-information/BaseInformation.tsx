@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable @typescript-eslint/ban-types */
 import {
   Box,
@@ -8,6 +9,11 @@ import {
   Text,
   Flex,
   Spacer,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import InfoBox from '../InfoBox'
@@ -24,17 +30,18 @@ const BaseInformation = ({
   data: any
 }) => {
   const [placeName, setPlaceName] = useState(data.name)
-  const [placeType, setPlaceType] = useState(data.place_type)
+  const [roomType, setRoomType] = useState(data.roomType)
+  const [roomQuantity, setRoomQuantity] = useState(data.roomQuantity)
 
   useEffect(() => {
-    if (placeName === '' || placeType === '' || placeName.length < 6) {
+    if (placeName === '' || roomType === '' || placeName.length < 6) {
       completeTab(false)
     } else {
       syncPlaceName(placeName)
-      syncPlaceType(placeType)
+      syncPlaceType(roomType)
       completeTab(true)
     }
-  }, [placeName, placeType, completeTab, syncPlaceName, syncPlaceType])
+  }, [placeName, completeTab, syncPlaceName, syncPlaceType, roomType])
 
   return (
     <Flex>
@@ -52,20 +59,34 @@ const BaseInformation = ({
           <FormLabel>Chỗ nghỉ của bạn là:</FormLabel>
           <Select
             placeholder='Chọn loại chỗ nghỉ'
-            onChange={(event) => setPlaceType(event.target.value)}
-            value={placeType}>
-            <option value='homestay'>Homestay</option>
-            <option value='villa'>Villa</option>
-            <option value='apartment'>Căn hộ</option>
-            <option value='penhouse'>Penhouse</option>
-            <option value='hostel'>Hotel</option>
-            <option value='motel'>Motel</option>
+            onChange={(event) => setRoomType(event.target.value)}
+            value={roomType}>
+            <option value='MOTEL'>Phòng trọ</option>
+            <option value='APARTMENT'>Chung cư</option>
+            <option value='WHOLE_HOUSE'>Nhà nguyên căn</option>
+            <option value='WHOLE_APARTMENT'>Chung cư nguyên căn</option>
           </Select>
         </FormControl>
         <InfoBox
           title='Homestay'
           content=' Không gian lưu trú nơi các vị khách được sinh hoạt trong những ngôi nhà dân theo phong cách sống bản địa.'
         />
+        <FormControl id='roomQuantity' isRequired mb={5}>
+          <FormLabel>Diện tích chỗ nghỉ của bạn là: </FormLabel>
+          <NumberInput
+            step={1}
+            defaultValue={15}
+            min={1}
+            max={500}
+            onChange={(value) => setRoomQuantity(parseInt(value))}
+            value={roomQuantity}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
         <FormControl id='place_name' isRequired mb={5}>
           <FormLabel>Tên chỗ nghỉ (Ít nhất 6 ký tự)</FormLabel>
           <Input
