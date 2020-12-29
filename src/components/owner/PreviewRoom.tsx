@@ -14,7 +14,7 @@ import BookingForm from 'components/place/place-details/BookingForm'
 
 type Intro = {
   name: string
-  detailAddress: string
+  address: string
   area: number
   roomType: string
   bathroomType: string
@@ -149,7 +149,7 @@ const PreviewRoom = () => {
                   <PlaceRoute />
                   <PlaceIntro
                     name={details?.name}
-                    address={details?.detailAddress}
+                    address={details?.address}
                     roomData={details?.area}
                     bathRoomType={details?.bathroomType}
                     kitchenType={details?.kitchenType}

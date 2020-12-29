@@ -55,6 +55,27 @@ const PlaceInformation = ({
   const [hasWardrobe, setHasWardrobe] = useState(data.hasWardrobe)
 
   useEffect(() => {
+    if (data) {
+      setPlaceName(data.name)
+      setDescription(data.description)
+      setRoomType(data.roomType)
+      setCity(data.city)
+      setAddress(data.address)
+      setRule(data.rule)
+      setArea(data.area)
+      setBathroomType(data.bathroomType)
+      setKitchenType(data.kitchenType)
+      setIsWithOwner(data.isWithOwner)
+      setHasWaterHeater(data.hasWaterHeater)
+      setHasConditioner(data.hasConditioner)
+      setHasBalcony(data.hasBalcony)
+      setHasFridge(data.hasFridge)
+      setHasBed(data.hasBed)
+      setHasWardrobe(data.hasWardrobe)
+      debugger
+    }
+  }, [data])
+  useEffect(() => {
     if (
       isCompleteBaseInfo
       && isCompletePosition

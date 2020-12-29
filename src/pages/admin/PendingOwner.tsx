@@ -46,7 +46,9 @@ function PendingOwner() {
             onClick={() => handleAccept(id)}>
             Chấp nhận
           </Button>
-          <Button colorScheme='red'>Từ Chối</Button>
+          <Button colorScheme='red' onClick={() => handleReject(id)}>
+            Chấp nhận
+          </Button>
         </Box>
       ),
     },
@@ -72,6 +74,19 @@ function PendingOwner() {
     console.log(pendingList)
     axios
       .put(`owners/${id}/approve`)
+      .then((res) => {
+        console.log(res)
+        debugger
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  const handleReject = (id: any) => {
+    setPendingList(pendingList.filter((item: any) => item._id !== id))
+    console.log(pendingList)
+    axios
+      .put(`owners/${id}/reject`)
       .then((res) => {
         console.log(res)
         debugger

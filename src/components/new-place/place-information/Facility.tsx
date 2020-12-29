@@ -29,6 +29,16 @@ const Facility = ({
   const [hasFridge, setHasFridge] = useState(data.hasFridge)
   const [hasBed, setHasBed] = useState(data.hasBed)
   const [hasWardrobe, setHasWardrobe] = useState(data.hasWardrobe)
+  useEffect(() => {
+    if (data) {
+      setHasWaterHeater(data.hasWaterHeater)
+      setHasConditioner(data.hasConditioner)
+      setHasBalcony(data.hasBalcony)
+      setHasFridge(data.hasFridge)
+      setHasBed(data.hasBed)
+      setHasWardrobe(data.hasWardrobe)
+    }
+  }, [data])
 
   useEffect(() => {
     syncWaterHeater(hasWaterHeater)

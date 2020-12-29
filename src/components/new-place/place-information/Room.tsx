@@ -39,6 +39,14 @@ const Room = ({
   const [kitchenType, setKitchenType] = useState(data.kitchenType)
   const [isWithOwner, setIsWithOwner] = useState(data.isWithOwner)
   useEffect(() => {
+    if (data) {
+      setArea(data.area)
+      setBathroomType(data.bathroomType)
+      setKitchenType(data.kitchenType)
+      setIsWithOwner(data.isWithOwner)
+    }
+  }, [data])
+  useEffect(() => {
     if (bathroomType === '' || kitchenType === '' || area === 0) {
       completeTab(false)
     } else {

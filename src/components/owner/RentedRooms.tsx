@@ -22,8 +22,8 @@ function RentedRooms() {
     },
     {
       title: 'Address',
-      dataIndex: 'detailAddress',
-      key: 'detailAddress',
+      dataIndex: 'address',
+      key: 'address',
       render: (text: string) => <a>{text}</a>,
     },
     {
@@ -57,8 +57,8 @@ function RentedRooms() {
       dataIndex: '_id',
       key: '_id',
       render: (id: string) => (
-        <Button colorScheme='orange' mr='10px' onClick={() => handleRemake(id)}>
-          Remake
+        <Button colorScheme='orange' mr='10px'>
+          <Link to={`rooms/${id}/renew`}> ReNew</Link>
         </Button>
       ),
     },
