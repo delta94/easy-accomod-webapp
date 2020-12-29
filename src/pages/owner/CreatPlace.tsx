@@ -8,13 +8,15 @@ import 'antd/dist/antd.css'
 import OwnerLayout from 'layouts/OwnerLayout'
 import { Steps } from 'antd'
 import axios from 'utils/axios'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { firestore } from 'firebase-config'
 
 const { Step } = Steps
-
-const CreatePlace = ({ data }: { data?: any }) => {
-  console.log(data)
+type Params = {
+  room_id: string
+}
+const CreatePlace = ({ data, status }: { data?: any; status: string }) => {
+  const params: Params = useParams()
   const history = useHistory()
   const [isCompletePlaceInfo, setIsCompletePlaceInfo] = useState(false)
   const [isCompletePlaceImage, setIsCompletePlaceImage] = useState(false)
@@ -76,34 +78,90 @@ const CreatePlace = ({ data }: { data?: any }) => {
       isCompletePlacePolicy
     ) {
       try {
-        const res = await axios({
-          url: `/rooms/create`,
-          method: 'post',
-          data: { ...placeInfo, images: placeImage, ...placePolicy },
-        })
-        if (res) {
-          toast({
-            title: 'Thành công',
-            description:
-              'Bạn đã đăng bài thành công, bài viết của bạn đang được chờ phê duyệt',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top',
+        if (status === 'renew') {
+          const res = await axios({
+            url: `/rooms/${params?.room_id}/renew`,
+            method: 'put',
+            data: { ...placeInfo, images: placeImage, ...placePolicy },
           })
-          history.push(`/rooms/${res.data.data._id}/preview`)
-          console.log(res.data.data.owner)
-          await firestore.collection('notifications').add({
-            sender: res.data.data.owner,
-            senderType: 'owner',
-            receiver: '',
-            receiverType: 'admin',
-            roomId: res.data.data._id,
-            type: 'CREATE_ROOM',
+          if (res) {
+            toast({
+              title: 'Thành công',
+              description:
+                'Bạn đã đăng lại bài thành công, bài viết của bạn đang được chờ phê duyệt',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+              position: 'top',
+            })
+            history.push(`/rooms/${params?.room_id}/preview`)
+            console.log(res.data.data.owner)
+            // await firestore.collection('notifications').add({
+            //   sender: res.data.data.owner,
+            //   senderType: 'owner',
+            //   receiver: '',
+            //   receiverType: 'admin',
+            //   roomId: res.data.data._id,
+            //   type: 'CREATE_ROOM',
+            // })
+          }
+        } else if (status === 'update') {
+          const res = await axios({
+            url: `/rooms/${params?.room_id}/update`,
+            method: 'put',
+            data: { ...placeInfo, images: placeImage, ...placePolicy },
           })
+          if (res) {
+            toast({
+              title: 'Thành công',
+              description: 'Bạn đã cập nhật bài viết thành công',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+              position: 'top',
+            })
+            history.push(`/rooms/${params?.room_id}/preview`)
+            console.log(res.data.data.owner)
+            // await firestore.collection('notifications').add({
+            //   sender: res.data.data.owner,
+            //   senderType: 'owner',
+            //   receiver: '',
+            //   receiverType: 'admin',
+            //   roomId: res.data.data._id,
+            //   type: 'CREATE_ROOM',
+            // })
+          }
+        } else {
+          const res = await axios({
+            url: `/rooms/create`,
+            method: 'post',
+            data: { ...placeInfo, images: placeImage, ...placePolicy },
+          })
+          if (res) {
+            toast({
+              title: 'Thành công',
+              description:
+                'Bạn đã đăng bài thành công, bài viết của bạn đang được chờ phê duyệt',
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+              position: 'top',
+            })
+            history.push(`/rooms/${res.data.data._id}/preview`)
+            console.log(res.data.data.owner)
+            // await firestore.collection('notifications').add({
+            //   sender: res.data.data.owner,
+            //   senderType: 'owner',
+            //   receiver: '',
+            //   receiverType: 'admin',
+            //   roomId: res.data.data._id,
+            //   type: 'CREATE_ROOM',
+            // })
+          }
         }
       } catch (error) {
         console.log(error)
+        debugger
         toast({
           title: 'Sai định dạng dữ liệu',
           description: error?.response?.message,

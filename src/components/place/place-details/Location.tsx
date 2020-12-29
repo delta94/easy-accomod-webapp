@@ -17,7 +17,7 @@ const Location = () => {
         </Heading>
         <span>Xem vị trí địa điểm trên bản đồ</span>
       </Box>
-      <Box className='location' height='400px' width='100%' mb={20}>
+      <Box className='location' height='400px' width='100%' mb={20} zIndex='5'>
         <Map />
       </Box>
     </NavLabel>

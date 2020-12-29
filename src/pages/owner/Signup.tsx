@@ -34,11 +34,14 @@ import BackPack from 'assets/signin/backpack.png'
 import { Link as ReactLink, useHistory } from 'react-router-dom'
 import useRedux from 'hooks/useRedux'
 import actions from 'store/actions'
+import { auth } from 'firebase-config'
 
 type FormData = {
   name: string
+  identity: string
   email: string
   phone: string
+  address: string
   password: string
   password_confirmation: string
   passwordNotMatch: string
@@ -73,13 +76,15 @@ const SignUp = () => {
       setLoading(false)
       toast({
         title: 'Thành công',
-        description: 'Bạn đã đăng ký tài khoản thành công',
+        description: 'Tài khoản của bạn đang được chờ phê duyệt',
         status: 'success',
         position: 'top',
         duration: 3000,
         isClosable: true,
       })
-      history.push('/')
+      auth.signOut()
+      localStorage.clear()
+      history.push('/login')
     } catch (error) {
       console.log(error?.response?.data?.error)
       setLoading(false)
@@ -195,6 +200,84 @@ const SignUp = () => {
                       </FormHelperText>
                       <FormErrorMessage>
                         {errors.email?.message}
+                      </FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                      id='identity'
+                      isRequired
+                      isInvalid={Boolean(errors?.email)}
+                      mt={4}>
+                      <FormLabel>Chứng minh nhân dân</FormLabel>
+                      <InputGroup size='lg'>
+                        <Input
+                          name='identity'
+                          required
+                          borderRadius='3rem'
+                          ref={register({
+                            minLength: {
+                              value: 9,
+                              message: 'Chứng minh nhân tối thiểu 9 số',
+                            },
+                          })}
+                          _placeholder={{ fontSize: 'md' }}
+                          _focus={{
+                            borderColor: 'orange.500',
+                            boxShadow: '0 0 5px 0 rgba(246,94,57,.5)',
+                          }}
+                        />
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl
+                      id='address'
+                      isRequired
+                      isInvalid={Boolean(errors?.email)}
+                      mt={4}>
+                      <FormLabel>Địa chỉ</FormLabel>
+                      <InputGroup size='lg'>
+                        <Input
+                          name='address'
+                          required
+                          borderRadius='3rem'
+                          ref={register({
+                            maxLength: {
+                              value: 200,
+                              message: 'Địa chỉ của bạn quá dài',
+                            },
+                          })}
+                          _placeholder={{ fontSize: 'md' }}
+                          _focus={{
+                            borderColor: 'orange.500',
+                            boxShadow: '0 0 5px 0 rgba(246,94,57,.5)',
+                          }}
+                        />
+                      </InputGroup>
+                    </FormControl>
+                    <FormControl
+                      id='phone'
+                      isRequired
+                      isInvalid={Boolean(errors?.email)}
+                      mt={4}>
+                      <FormLabel>Số điện thoại</FormLabel>
+                      <InputGroup size='lg'>
+                        <Input
+                          name='phone'
+                          required
+                          borderRadius='3rem'
+                          ref={register({
+                            pattern: {
+                              value: /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/,
+                              message: 'Số điện thoại không hợp lệ',
+                            },
+                          })}
+                          _placeholder={{ fontSize: 'md' }}
+                          _focus={{
+                            borderColor: 'orange.500',
+                            boxShadow: '0 0 5px 0 rgba(246,94,57,.5)',
+                          }}
+                        />
+                      </InputGroup>
+                      <FormErrorMessage>
+                        {errors.phone?.message}
                       </FormErrorMessage>
                     </FormControl>
                     <FormControl

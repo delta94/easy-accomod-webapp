@@ -8,6 +8,7 @@ import PreviewRoom from 'components/owner/PreviewRoom'
 import Login from 'pages/owner/Login'
 import Signup from 'pages/owner/Signup'
 import ViewRoom from 'components/owner/ViewRoom'
+import EditRoom from 'pages/owner/EditRoom'
 import NotFound from '../pages/static-page/NotFound'
 
 export default function OwnerRouter() {
@@ -20,6 +21,7 @@ export default function OwnerRouter() {
       <Route path='/rooms/:room_id/preview' component={PreviewRoom} />
       <Route path='/rooms/:room_id/view' component={ViewRoom} />
       <Route path='/rooms/:room_id/renew' component={RenewRoom} />
+      <Route path='/rooms/:room_id/edit' component={EditRoom} />
       <Route component={NotFound} />
     </Switch>
   )

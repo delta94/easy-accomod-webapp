@@ -46,6 +46,16 @@ function PendingRooms() {
         </Button>
       ),
     },
+    {
+      title: 'Edit',
+      dataIndex: '_id',
+      key: '_id',
+      render: (id: string) => (
+        <Button colorScheme='orange' mr='10px'>
+          <Link to={`rooms/${id}/edit`}>Edit</Link>
+        </Button>
+      ),
+    },
   ]
   const [pendingRoom, setpendingRoom] = useState<any>([])
   useEffect(() => {
@@ -53,6 +63,7 @@ function PendingRooms() {
       .get(`/owner/rooms/pending`)
       .then((res) => {
         setpendingRoom(res.data.data)
+        console.log(res)
       })
       .catch((err) => {
         console.log(err)

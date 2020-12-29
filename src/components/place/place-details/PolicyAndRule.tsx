@@ -2,7 +2,7 @@ import { Box, chakra, Heading, Link, Text } from '@chakra-ui/react'
 import { Element } from 'react-scroll'
 // import { DisplayPolicy } from '@utils/displayPolicy'
 
-const PolicyAndRule = () => {
+const PolicyAndRule = ({ rule }: any) => {
   const NavLabel = chakra(Element)
   return (
     <NavLabel className='policy-and-rules' name='policies' mt={20}>
@@ -12,17 +12,11 @@ const PolicyAndRule = () => {
         </Heading>
       </Box>
       <Box>
-        <Box className='policy'>
-          <Heading as='h4' fontSize='xl' mt={6} mb={3}>
-            Chính sách hủy phòng
-          </Heading>
-          {/* <Text>{policy}</Text> */}
-        </Box>
         <Box className='rules'>
           <Heading as='h4' fontSize='xl' mt={12} mb={3}>
             Lưu ý đặc biệt
           </Heading>
-          {/* <Text>{rule}</Text> */}
+          <Text>{rule}</Text>
         </Box>
       </Box>
     </NavLabel>

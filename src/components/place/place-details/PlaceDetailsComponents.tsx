@@ -33,6 +33,7 @@ type Intro = {
   electricityPrice: number
   images: Array<string>
   owner: { name: string }
+  rule: string
 }
 type Params = {
   room_id: string
@@ -166,7 +167,7 @@ const PlaceDetailsComponent = () => {
                   <Amenities listAmenties={details} />
                   {/* <Price /> */}
                   <Reviews roomId={details?._id} reviews={reviews} />
-                  <PolicyAndRule />
+                  <PolicyAndRule rule={details?.rule} />
                   <Location />
                 </Box>
               </Box>

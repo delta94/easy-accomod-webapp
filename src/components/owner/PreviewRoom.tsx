@@ -11,6 +11,7 @@ import PlaceIntro from 'components/place/place-details/PlaceIntro'
 import PlaceRoute from 'components/place/place-details/PlaceRoute'
 import PolicyAndRule from 'components/place/place-details/PolicyAndRule'
 import BookingForm from 'components/place/place-details/BookingForm'
+import Layout from 'layouts/OwnerLayout'
 
 type Intro = {
   name: string
@@ -31,6 +32,7 @@ type Intro = {
   images: Array<string>
   owner: { name: string }
   description: string
+  rule: string
 }
 type Params = {
   room_id: string
@@ -83,7 +85,7 @@ const PreviewRoom = () => {
   ]
 
   return (
-    <Box>
+    <Layout>
       <Nav
         padding='1.5rem 0'
         display={showStickyNavBar ? 'flex' : 'none'}
@@ -159,7 +161,7 @@ const PreviewRoom = () => {
                     ownerName={details?.owner?.name}
                   />
                   <Amenities listAmenties={details} />
-                  <PolicyAndRule />
+                  <PolicyAndRule rule={details?.rule} />
                   <Location />
                 </Box>
               </Box>
@@ -175,7 +177,7 @@ const PreviewRoom = () => {
           </Box>
         </Container>
       </Box>
-    </Box>
+    </Layout>
   )
 }
 

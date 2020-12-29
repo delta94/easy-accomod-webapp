@@ -33,6 +33,7 @@ type Intro = {
   images: Array<string>
   owner: { name: string; _id: string }
   description: string
+  rule: string
 }
 type Params = {
   room_id: string
@@ -161,7 +162,7 @@ const PlaceDetailsComponent = () => {
                     ownerName={details?.owner?.name}
                   />
                   <Amenities listAmenties={details} />
-                  <PolicyAndRule />
+                  <PolicyAndRule rule={details?.rule} />
                   <Location />
                 </Box>
               </Box>

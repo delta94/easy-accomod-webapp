@@ -8,6 +8,9 @@ type SignupByEmailAndPasswordType = {
   email: string
   password: string
   name: string
+  address?: string
+  phone?: string
+  identity?: string
 }
 
 const loginByEmailAndPassword = createAction<

@@ -40,38 +40,52 @@ export default function Header() {
   const [name, setName] = useState('')
 
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          const result = await axios.get('/profile')
-          const { data } = result?.data
-          setName(data.name)
-          debugger
-        } catch (error) {
-          if (error.response?.status === 403) {
-            signOut()
-            toast({
-              title: 'Có sự cố xảy ra',
-              description: 'Bạn không đủ quyền để truy cập trang này',
-              status: 'error',
-              duration: 3000,
-              isClosable: true,
-              position: 'top',
-            })
-          }
+    // auth.onAuthStateChanged(async (user) => {
+    //   if (user) {
+    try {
+      axios.get('/profile').then((result) => {
+        const { data } = result.data
+        setName(data.name)
+        debugger
+        if (data.status !== 'APPROVED') {
+          signOut()
+          toast({
+            title: 'Có sự cố xảy ra',
+            description: 'Tài khoản đang chờ phê duyệt',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top',
+          })
         }
-      } else {
-        history.push('/login')
+        debugger
+      })
+    } catch (error) {
+      if (error.response?.status === 403) {
+        signOut()
         toast({
           title: 'Có sự cố xảy ra',
-          description: 'Bạn cần đăng nhập tài khoản admin để tiếp tục',
+          description: 'Bạn không đủ quyền để truy cập trang này',
           status: 'error',
           duration: 3000,
           isClosable: true,
           position: 'top',
         })
       }
-    })
+    }
+    // }
+    // else {
+    //   history.push('/login')
+    //   toast({
+    //     title: 'Có sự cố xảy ra',
+    //     description: 'Bạn cần đăng nhập tài khoản admin để tiếp tục',
+    //     status: 'error',
+    //     duration: 3000,
+    //     isClosable: true,
+    //     position: 'top',
+    //   })
+    // }
+    // })
   }, [])
 
   const signOut = async () => {
@@ -81,7 +95,7 @@ export default function Header() {
       actions.signOut()
     )
     localStorage.clear()
-    history.push('/')
+    history.push('/login')
   }
 
   return (
@@ -169,11 +183,6 @@ export default function Header() {
                   <MenuItem>
                     <Button onClick={signOut} variant='link'>
                       Đăng xuất
-                    </Button>
-                  </MenuItem>
-                  <MenuItem>
-                    <Button onClick={signOut} variant='link'>
-                      Cài đặt tài khoản
                     </Button>
                   </MenuItem>
                 </MenuList>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import CreatePlace from 'pages/owner/CreatPlace'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axios from 'utils/axios'
 
 type Params = {
   room_id: string
 }
-function RenewRoom() {
+function EditRoom() {
   const params: Params = useParams()
   const [rentRoom, setRentRoom] = useState<any>([])
   useEffect(() => {
@@ -22,9 +22,9 @@ function RenewRoom() {
   }, [])
   return (
     <>
-      <CreatePlace data={rentRoom} status='renew' />
+      <CreatePlace data={rentRoom} status='update' />
     </>
   )
 }
 
-export default RenewRoom
+export default EditRoom

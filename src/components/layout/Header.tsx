@@ -38,27 +38,28 @@ export default function Header() {
   const [name, setName] = useState('')
 
   useEffect(() => {
-    auth.onAuthStateChanged(async () => {
-      try {
-        const result = await axios.get('/profile')
+    // auth.onAuthStateChanged(async () => {
+    try {
+      axios.get('/profile').then((result) => {
         const { data } = result.data
         setName(data.name)
         debugger
-      } catch (error) {
-        if (error.response.status === 403) {
-          signOut()
-          toast({
-            title: 'Có sự cố xảy ra',
-            description: 'Bạn không đủ quyền để truy cập trang này',
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top',
-          })
-          debugger
-        }
+      })
+    } catch (error) {
+      if (error.response.status === 403) {
+        signOut()
+        toast({
+          title: 'Có sự cố xảy ra',
+          description: 'Bạn không đủ quyền để truy cập trang này',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+        })
+        debugger
       }
-    })
+    }
+    // })
   }, [])
 
   const signOut = async () => {

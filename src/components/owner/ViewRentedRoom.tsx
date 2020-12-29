@@ -34,6 +34,7 @@ type Intro = {
   electricityPrice: number
   images: Array<string>
   owner: { name: string }
+  rule: string
 }
 type Params = {
   room_id: string
@@ -94,7 +95,7 @@ const ViewRoom = () => {
         display={showStickyNavBar ? 'flex' : 'none'}
         position='sticky'
         backgroundColor='white'
-        zIndex={10}
+        zIndex={100}
         top={0}
         left={0}
         borderTop='1px solid rgb(230, 230, 230)'
@@ -167,7 +168,7 @@ const ViewRoom = () => {
                   <Amenities listAmenties={details} />
                   {/* <Price /> */}
                   <Reviews roomId={details?._id} reviews={reviews} />
-                  <PolicyAndRule />
+                  <PolicyAndRule rule={details?.rule} />
                   <Location />
                 </Box>
               </Box>
