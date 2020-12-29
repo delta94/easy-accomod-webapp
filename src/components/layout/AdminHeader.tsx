@@ -125,8 +125,10 @@ export default function AdminHeader() {
         </DrawerOverlay>
       </Drawer>
       <Box
-        height='80px'
+        height='85px'
         w='100%'
+        mb= {5}
+        pb={3}
         display={{ sm: 'none', md: 'none', lg: 'block' }}
         borderBottom='1px solid rgb(226 232 240)'>
         <Flex

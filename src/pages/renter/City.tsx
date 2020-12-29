@@ -12,6 +12,16 @@ type Params = {
 const City = () => {
   const [roomList, setRoomList] = useState([])
   const params: Params = useParams()
+  const cities = {
+    hanoi: 'Hà Nội',
+    hcm: 'Hồ Chí Minh',
+    nhatrang: 'Nha Trang',
+    dalat: 'Đà Lạt',
+    danang: 'Đà Nắng',
+    vungtau: 'Vũng Tàu',
+    hoian: 'Hội An',
+    quangninh: 'Quảng Ninh',
+  } as any
   useEffect(() => {
     axios
       .get(`/rooms/city/${params?.city}`)
@@ -21,11 +31,11 @@ const City = () => {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [params?.city])
   return (
     <Layout>
       <Text fontSize='30px' fontWeight='semibold' mx={22} mt={5}>
-        Hà Nội
+        {cities[params?.city]}
       </Text>
       <RoomList roomList={roomList} />
     </Layout>

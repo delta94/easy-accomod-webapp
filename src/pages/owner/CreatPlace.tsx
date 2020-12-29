@@ -4,7 +4,6 @@ import PlaceInformation from 'components/new-place/place-information/PlaceInform
 import PlaceImage from 'components/new-place/place-image/PlaceImage'
 import PricePolicy from 'components/new-place/price-policy/PricePolicy'
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import 'antd/dist/antd.css'
 import OwnerLayout from 'layouts/OwnerLayout'
 import { Steps } from 'antd'
@@ -12,7 +11,6 @@ import { Steps } from 'antd'
 const { Step } = Steps
 
 const CreatePlace = () => {
-  const history = useHistory()
   const [isCompletePlaceInfo, setIsCompletePlaceInfo] = useState(false)
   const [isCompletePlaceImage, setIsCompletePlaceImage] = useState(false)
   const [isCompletePlacePolicy, setIsCompletePlacePolicy] = useState(false)

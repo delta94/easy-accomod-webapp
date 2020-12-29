@@ -10,7 +10,6 @@ import PlaceIntro from './PlaceIntro'
 import PlaceRoute from './PlaceRoute'
 import PolicyAndRule from './PolicyAndRule'
 import BookingForm from './BookingForm'
-import Price from './Price'
 import Reviews from './Reviews'
 import ShareAndLikeBtn from './ShareAndLikeBtn'
 

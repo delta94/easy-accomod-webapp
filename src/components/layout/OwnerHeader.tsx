@@ -26,9 +26,10 @@ import { auth } from 'firebase-config'
 import useRedux from 'hooks/useRedux'
 import actions from 'store/actions'
 
-import { HamburgerIcon, ChevronDownIcon } from '@chakra-ui/icons'
+import { HamburgerIcon, ChevronDownIcon, EmailIcon } from '@chakra-ui/icons'
 import Logo from 'assets/logo2.png'
 import Search from 'components/filter/Search'
+import Notifi from './Notifi'
 
 export default function Header() {
   const toast = useToast()
@@ -42,11 +43,11 @@ export default function Header() {
       if (user) {
         try {
           const result = await axios.get('/profile')
-          const { data } = result.data
+          const { data } = result?.data
           setName(data.name)
           debugger
         } catch (error) {
-          if (error.response.status === 403) {
+          if (error.response?.status === 403) {
             signOut()
             toast({
               title: 'Có sự cố xảy ra',
@@ -129,8 +130,10 @@ export default function Header() {
         </DrawerOverlay>
       </Drawer>
       <Box
-        height='80px'
+        height='85px'
         w='100%'
+        mb= {5}
+        pb={3}
         display={{ sm: 'none', md: 'none', lg: 'block' }}
         borderBottom='1px solid rgb(226 232 240)'>
         <Flex
@@ -151,6 +154,18 @@ export default function Header() {
                 <Link to='/create-room'>Create new room</Link>
               </Button>
               <Menu>
+                <MenuButton
+                px={8}
+                py={2}
+                transition="all 0.2s"
+                borderRadius="md">
+                  <EmailIcon/>
+                </MenuButton>
+                <MenuList w='350px'>
+                  <Notifi />
+                </MenuList>
+              </Menu>
+              <Menu>
                 <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                   {name}
                 </MenuButton>
@@ -158,10 +173,16 @@ export default function Header() {
                   <MenuItem>
                     <Button onClick={signOut} variant='link'>
                       Đăng xuất
-                  </Button>
+                    </Button>
+                  </MenuItem>
+                  <MenuItem>
+                    <Button onClick={signOut} variant='link'>
+                      Cài đặt tài khoản
+                    </Button>
                   </MenuItem>
                 </MenuList>
               </Menu>
+
             </>
           ) : (
               <Flex d='flex' alignItems='center'>

@@ -23,6 +23,7 @@ const PlaceIntro = ({
   bathRoomType,
   ownerName,
   description,
+  isWithOwner,
 }: any) => {
   const NavLabel = chakra(Element)
   const [truncated, setTruncated] = useState(true)
@@ -42,7 +43,7 @@ const PlaceIntro = ({
           </Box>
         </Flex>
       </Box>
-      <Box mt={6} fontSize='sm'>
+      <Box mt={4} fontSize='sm'>
         <Flex
           justifyContent='flex-start'
           flexDirection='row'
@@ -71,6 +72,9 @@ const PlaceIntro = ({
         <Stack spacing='5px' direction='column'>
           <Text>Phòng bếp : {kitchenType} </Text>
           <Text>Phòng tắm : {bathRoomType}</Text>
+          <Text>
+            Chung chủ : {isWithOwner ? 'Có chung chủ' : 'Không chung chủ'}
+          </Text>
         </Stack>
       </Box>
       <Box mt='36px'>

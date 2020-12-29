@@ -18,34 +18,7 @@ const Header = () => {
 
   return (
     <Box bg='#fff'>
-      <Container maxW='100%' px={40}>
-        {/* <Box
-          display='flex'
-          justifyContent='space-between'
-          alignItems='center'
-          h='80px'
-          py={12}
-        >
-          <Box flex='1'>
-            <Link as={ReactLink} to='/'>
-              <Link to='/'>
-                <Image src={Logo} width='60px' height='60px' />
-              </Link>
-            </Link>
-
-          </Box>
-          <Stack flex='1' direction='row-reverse' spacing={6}>
-            <Box>
-              <Text fontSize='sm' fontWeight='bold' color='#999' textTransform='uppercase'>Tài khoản của tôi</Text>
-              <Text fontSize='md' fontWeight='bolder' color='#333'>{session?.user?.name}</Text>
-            </Box>
-            <Box>
-              <Text fontSize='sm' fontWeight='bold' color='#999' textTransform='uppercase'>Hôm nay</Text>
-              <Text fontSize='md' fontWeight='bolder' color='#333'>{format(Date.now(), 'dd-MM-yyyy')}</Text>
-            </Box>
-          </Stack>
-        </Box> */}
-      </Container>
+      <Container maxW='100%' px={40} />
       <Box>
         <Container maxW='100%' px={40}>
           <Stack direction='row' color='#a3acb9' fontWeight='medium' spacing={7}>

@@ -21,123 +21,35 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { AiOutlineCalendar } from 'react-icons/ai'
+import axios from 'utils/axios'
 
+type Intro = {
+  _id: string
+  name: string
+  email: string
+}
 const EditAccount = () => {
   // const [session, loading] = useSession()
-  const [birthday, setBirthday] = useState(null)
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
-  const [gender, setGender] = useState('male')
-  const [focusedBirthday, setFocusedBirthday] = useState(null)
-  const [fileList, setFileList] = useState<Array<any>>([])
-  const [avatar, setAvatar] = useState('')
-
+  const [details, setDetails] = useState<Intro>()
   const toast = useToast()
-  // const initData = async (id: number) => {
-  //   try {
-  //     const { data } = await axios({
-  //       url: `/v1/user/user/${id}`,
-  //       method: 'get',
-  //     })
-  //     if (data.birthday) {
-  //       const date = data.birthday.split('T')
-  //       setBirthday(moment(date, 'YYYY-MM-DD'))
-  //     }
-  //     setName(data.name ? data.name : '')
-  //     setEmail(data.email ? data.email : '')
-  //     setPhone(data.phone ? data.phone : '')
-  //     setAddress(data.address ? data.address : '')
-  //     setGender(data.gender ? data.gender : '')
-  //     setAvatar(data.avatar ? data.avatar : '/')
-  //   } catch (error) {
-  //     toast({
-  //       title: 'Có sự cố xảy ra',
-  //       description: 'Vui lòng kiểm tra lại đường truyền mạng',
-  //       status: 'error',
-  //       duration: 3000,
-  //       isClosable: true,
-  //       position: 'top',
-  //     })
-  //   }
-  // }
-  // useEffect(() => {
-  //   if (!loading) {
-  //     const { full_info } = session
-  //     initData(full_info.id) as any
-  //   }
-  // }, [loading, session])
-
-  // const updateProfile = async () => {
-  //   try {
-  //     const data = await axios({
-  //       url: `v1/user/update`,
-  //       method: 'patch',
-  //       data: {
-  //         name,
-  //         email,
-  //         phone,
-  //         address,
-  //         gender,
-  //         birthday: moment(birthday).format('DD-MM-YYYY'),
-  //         avatar,
-  //       },
-  //     })
-  //     if (data.status === 200) {
-  //       toast({
-  //         title: 'Thành công',
-  //         description: 'Bạn đã cập nhật thành công thông tin cá nhân',
-  //         status: 'success',
-  //         duration: 3000,
-  //         isClosable: true,
-  //         position: 'top',
-  //       })
-  //     }
-  //   } catch (error) {
-  //     toast({
-  //       title: 'Có sự cố xảy ra',
-  //       description: 'Vui lòng kiểm tra lại đường truyền mạng',
-  //       status: 'error',
-  //       duration: 3000,
-  //       isClosable: true,
-  //       position: 'top',
-  //     })
-  //   }
-  // }
-
-  // const beforeUpload = (file) => {
-  //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-  //   if (!isJpgOrPng) {
-  //     message.error('wrong_format')
-  //   }
-  //   const isLt3M = file.size / 1024 / 1024 < 3
-  //   if (!isLt3M) {
-  //     message.error('wrong_size')
-  //   }
-  //   return false
-  // }
+  useEffect(() => {
+    axios
+      .get(`/profile`)
+      .then((res) => {
+        setDetails(res.data.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   return (
     <Box flexBasis='66.67%' pl={8}>
       <Box animation='fadeIn .4s ease-in-out'>
         <Box display='flex' alignItems='center'>
-          <Avatar size='xl' name={name} src={avatar} />
-          {/* <Upload
-            name='avatar'
-            // action={uploadURL}
-            accept='.png, .jpg, .jpeg'
-            multiple={false}
-            fileList={fileList}
-            onChange={onImageChange}
-            beforeUpload={beforeUpload}
-            withCredentials>
-            <Button ml={4} color='#fff' backgroundColor='#f65e39'>
-              Đổi ảnh đại diện
-            </Button>
-          </Upload> */}
+          <Avatar size='xl' />
         </Box>
+        <Text>DDang cho phe duyet</Text>
         <Box mt={6}>
           <Text mb={2} color='#666' fontWeight='bold'>
             Tên
@@ -147,8 +59,7 @@ const EditAccount = () => {
             borderRadius='5px !important'
             boxShadow='inset 0 1px 2px 0 rgba(0,0,0,.15)!important'
             variant='filled'
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+            placeholder={details?.name}
           />
         </Box>
         <Box mt={6}>
@@ -160,8 +71,7 @@ const EditAccount = () => {
             borderRadius='5px !important'
             boxShadow='inset 0 1px 2px 0 rgba(0,0,0,.15)!important'
             variant='filled'
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            placeholder={details?.email}
           />
         </Box>
         <Box mt={6}>
@@ -180,8 +90,7 @@ const EditAccount = () => {
               borderRadius='5px !important'
               boxShadow='inset 0 1px 2px 0 rgba(0,0,0,.15)!important'
               type='phone'
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
+              // value={phone}
             />
           </InputGroup>
           <Box mt={6}>
@@ -193,8 +102,7 @@ const EditAccount = () => {
               borderRadius='5px !important'
               boxShadow='inset 0 1px 2px 0 rgba(0,0,0,.15)!important'
               variant='filled'
-              value={address}
-              onChange={(event) => setAddress(event.target.value)}
+              // value={de}
             />
           </Box>
           <Box mt={6}>
@@ -207,9 +115,8 @@ const EditAccount = () => {
               Giới tính
             </Text>
             <RadioGroup
-              value={gender}
-              defaultValue='male'
-              onChange={(value: string) => setGender(value)}>
+              // value={gender}
+              defaultValue='male'>
               <Stack direction='row' spacing={3}>
                 <Radio
                   cursor='pointer'

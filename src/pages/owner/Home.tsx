@@ -1,4 +1,4 @@
-import { Box, Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react'
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@chakra-ui/react'
 import 'antd/dist/antd.css'
 import OwnerLayout from 'layouts/OwnerLayout'
 import LiveRooms from 'components/owner/LiveRooms'

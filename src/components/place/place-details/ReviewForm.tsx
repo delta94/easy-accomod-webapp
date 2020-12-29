@@ -25,51 +25,7 @@ const ReviewForm = ({ addReview }: { addReview: Function }) => {
   const [commentLoading, setCommentLoading] = useState(false)
   const [commentSuccess, setCommentSuccess] = useState(false)
   const [disable, setDisable] = useState(true)
-  // const [session, loading] = useSession()
 
-  // const [mutate] = useMutation(
-  //   async ({ score, comment }: any) => {
-  //     const { data } = await axios.post(`/v1/place/${id}/rating/new`, {
-  //       score,
-  //       comment,
-  //     })
-  //     return data
-  //   },
-  //   {
-  //     onError: (error) => {
-  //       console.log(error)
-  //       toast({
-  //         title: 'Đã có lỗi xảy ra',
-  //         description: 'Điểm số đánh giá phải lớn hơn 0',
-  //         status: 'error',
-  //         duration: 3000,
-  //         isClosable: true,
-  //         position: 'top',
-  //       })
-  //     },
-  //     onSuccess: () => {
-  //       refetch()
-  //       toast({
-  //         title: 'Thành công',
-  //         description: 'Đã thêm 1 bình luận thành công!',
-  //         status: 'success',
-  //         duration: 3000,
-  //         isClosable: true,
-  //         position: 'top',
-  //       })
-  //       setCommentLoading(false)
-  //       setCommentSuccess(true)
-  //       setScore(0)
-  //       setComment('')
-  //     },
-  //   }
-  // )
-
-  // useEffect(() => {
-  //   if (score > 0) {
-  //     setDisable(false)
-  //   }
-  // }, [score])
   const handleSubmit = () => {
     console.log(comment)
     addReview({ comment, score })

@@ -3,23 +3,8 @@ import { Table } from 'antd'
 import { Button, Box } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import axios from 'utils/axios'
-import { useParams } from 'react-router-dom'
 
-type OwnerPending = [
-  owner: {
-    id: string
-    email: string
-    name: string
-    indentity: string
-    address: string
-    phone: string
-  }
-]
-type Params = {
-  owner_id: string
-}
 function PendingOwner() {
-  const params: Params = useParams()
   const columns = [
     {
       title: 'Name',
