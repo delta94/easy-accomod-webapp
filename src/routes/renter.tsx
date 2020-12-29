@@ -14,12 +14,12 @@ export default function RenterRouter() {
   return (
     <Switch>
       <Route exact path='/' component={Home} />
-      <Route path='/login' component={Login} />
-      <Route path='/rooms/:room_id' component={RoomDetail} />
-      <Route path='/cities/:city' component={City} />
-      <Route path='/signup' component={Signup} />
-      <Route path='/account' component={Account} />
-      <Route path='/bookmarks' component={Bookmark} />
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/rooms/:room_id' component={RoomDetail} />
+      <Route exact path='/cities/:city' component={City} />
+      <Route exact path='/signup' component={Signup} />
+      <Route exact path='/account' component={Account} />
+      <Route exact path='/bookmarks' component={Bookmark} />
       <Route component={NotFound} />
     </Switch>
   )

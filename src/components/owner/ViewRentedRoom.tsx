@@ -89,7 +89,7 @@ const ViewRoom = () => {
   ]
 
   return (
-    <Layout>
+    <Layout title={details?.name}>
       <Nav
         padding='1.5rem 0'
         display={showStickyNavBar ? 'flex' : 'none'}

@@ -35,6 +35,7 @@ type Intro = {
   images: Array<string>
   owner: { name: string }
   rule: string
+  city: string
 }
 type Params = {
   room_id: string
@@ -89,7 +90,7 @@ const ViewRoom = () => {
   ]
 
   return (
-    <Layout>
+    <Layout title={details?.name}>
       <Nav
         padding='1.5rem 0'
         display={showStickyNavBar ? 'flex' : 'none'}
@@ -152,7 +153,7 @@ const ViewRoom = () => {
             <Flex width='100%' flexDirection='row'>
               <Box flex='2'>
                 <Box paddingRight='50px'>
-                  <PlaceRoute />
+                  <PlaceRoute city={details?.city} />
                   <PlaceIntro
                     name={details?.name}
                     address={details?.address}

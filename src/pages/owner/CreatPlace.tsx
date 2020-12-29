@@ -222,7 +222,7 @@ const CreatePlace = ({ data, status }: { data?: any; status: string }) => {
   ]
 
   return (
-    <OwnerLayout>
+    <OwnerLayout title={placeInfo?.name}>
       <Box mb={5}>
         <Box maxW='80%' m='30px auto' pb={5}>
           <Steps current={current} direction='horizontal'>
