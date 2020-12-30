@@ -49,7 +49,6 @@ const EditAccount = () => {
         <Box display='flex' alignItems='center'>
           <Avatar size='xl' />
         </Box>
-        <Text>DDang cho phe duyet</Text>
         <Box mt={6}>
           <Text mb={2} color='#666' fontWeight='bold'>
             Tên
@@ -90,7 +89,6 @@ const EditAccount = () => {
               borderRadius='5px !important'
               boxShadow='inset 0 1px 2px 0 rgba(0,0,0,.15)!important'
               type='phone'
-              // value={phone}
             />
           </InputGroup>
           <Box mt={6}>
@@ -102,7 +100,6 @@ const EditAccount = () => {
               borderRadius='5px !important'
               boxShadow='inset 0 1px 2px 0 rgba(0,0,0,.15)!important'
               variant='filled'
-              // value={de}
             />
           </Box>
           <Box mt={6}>
@@ -157,15 +154,6 @@ const EditAccount = () => {
               minH='120px'
               resize='none'
             />
-          </Box>
-          <Box mt={6}>
-            <Button
-              color='#fff'
-              backgroundColor='#f65e39'
-              // onClick={updateProfile}
-            >
-              Cập nhật
-            </Button>
           </Box>
         </Box>
       </Box>
