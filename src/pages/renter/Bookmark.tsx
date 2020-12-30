@@ -5,7 +5,7 @@ import BookmarkList from 'components/account/bookmark-list/BookmarkList'
 
 function Bookmark() {
   return (
-    <Layout>
+    <Layout title='Yêu thích'>
       <Header />
       <BookmarkList />
     </Layout>

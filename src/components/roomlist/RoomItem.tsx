@@ -82,12 +82,12 @@ function RoomItem({
                   <Text fontSize='sm' color='#718096'>
                     {placeType}
                   </Text>
-                  <Stack fontSize='sm' direction='row'>
+                  {/* <Stack fontSize='sm' direction='row'>
                     <AiFillStar color='#FFB025' size='18' />
                     <span>
                       {avg} ({ratings?.length})
                   </span>
-                  </Stack>
+                  </Stack> */}
                 </Box>
               </Box>
             )}

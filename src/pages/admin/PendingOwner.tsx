@@ -47,7 +47,7 @@ function PendingOwner() {
             Chấp nhận
           </Button>
           <Button colorScheme='red' onClick={() => handleReject(id)}>
-            Chấp nhận
+            Từ chối
           </Button>
         </Box>
       ),

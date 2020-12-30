@@ -4,7 +4,7 @@ import PreviewRoom from 'components/admin/preview-room/PreviewRoom'
 
 function ReviewRoom() {
   return (
-    <Layout>
+    <Layout title='Xem trước'>
       <PreviewRoom />
     </Layout>
   )

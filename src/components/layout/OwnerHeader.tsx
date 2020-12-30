@@ -156,7 +156,6 @@ export default function Header() {
           <Link to='/'>
             <Image src={Logo} width='60px' height='60px' />
           </Link>
-          <Search />
           <Spacer />
           {name !== '' ? (
             <>

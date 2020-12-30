@@ -17,7 +17,7 @@ const City = () => {
     hcm: 'Hồ Chí Minh',
     nhatrang: 'Nha Trang',
     dalat: 'Đà Lạt',
-    danang: 'Đà Nắng',
+    danang: 'Đà Nẵng',
     vungtau: 'Vũng Tàu',
     hoian: 'Hội An',
     quangninh: 'Quảng Ninh',
@@ -33,9 +33,9 @@ const City = () => {
       })
   }, [params?.city])
   return (
-    <Layout>
-      <Text fontSize='30px' fontWeight='semibold' mx={22} mt={5}>
-        {cities[params?.city]}
+    <Layout title={cities[params?.city]}>
+      <Text fontSize='28px' fontWeight='semibold' mx={22} mt={5}>
+        {`${cities[params?.city]} - ${roomList?.length} phòng`}
       </Text>
       <RoomList roomList={roomList} />
     </Layout>
